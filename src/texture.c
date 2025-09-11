@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/10 17:18:15 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:41:34 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	texture_check(t_map *map)
 	temp = split(line, " ");
 	if (!temp || temp[2])
 		return (1);
-	if (temp[1][0] != '.' && temp[1][1] != '/' && temp[1][3])
+	if (temp[1][0] != '.' && temp[1][1] != '/' && temp[1][2] != '-' \
+		&& temp[1][2] != '_' && !ft_isalnum(temp[1][2]))
 		return (1);
 	id_check(map, temp);
 }

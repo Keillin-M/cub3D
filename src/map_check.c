@@ -19,7 +19,8 @@ int	char_check(t_map *map, int i, int j)
 				&& map->map_cpy[j][i] != 'W' && map->map_cpy[j][i] != 'E' \
 					&& map->map_cpy[j][i] != ' ')
 		return (perror("Invalid char in map"), 1);
-	if (map->map_cpy[j][i])
+	if (map->map_cpy[j][i] == 'N' || && map->map_cpy[j][i] != 'S' \
+			&& map->map_cpy[j][i] != 'W' && map->map_cpy[j][i] != 'E')
 	{
 		map->player++;
 		map->x = i;
