@@ -3,33 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/10 17:18:11 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/12 18:51:44 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
+#include <unistd.h>
+#include <fcntl.h>
 
 void	draw_map(t_map *map)
 {
 	int	row;
 
 	row = 0;
-	game->map[row] = ft_strdup(game->line);
-	game->map_cpy[row] = ft_strdup(game->line);
-	if (!game->map[row] || !game->map_cpy[row])
+	map->map[row] = ft_strdup(map->line);
+	map->map_cpy[row] = ft_strdup(map->line);
+	if (!map->map[row] || !map->map_cpy[row])
 	{
-		close(game->fd);
-		return (free(game->line), perror("ft_strdup failed"), 1);
+		close(map->fd);
+		return (free(map->line), perror("ft_strdup failed"), 1);
 	}
-	free(game->line);
+	free(map->line);
 	row++;
-	game->line = get_next_line(game->fd);
+	map->line = get_next_line(map->fd);
 }
 
-int	read_map(t_map *map, char **argv)
+int	read_map(t_map *map, t_tex *tex, char **argv)
 {
 	int	i;
 
@@ -37,17 +39,18 @@ int	read_map(t_map *map, char **argv)
 	if (map->fd < 0)
 		return (perror("Error opening file"), 1);
 	map->line = get_next_line(map->fd);
-	while (map->line)
+	while (map->line && tex->count < 6)
 	{
-		while (map->check != 1)
-			texture_check(map);
-		i = 0;
-		While (i < 6)
-	{
-		if (!map->texture[i])
-			return (1);
-		i++;
+		if (texture_check(tex, map))
+		{
+			close(map->fd);
+			free(map->line);
+			return (perror("Error\ninvalid type identifier"), 1);
+		}
+		free(map->line);
+		map->line = get_next_line(map->fd);
 	}
-	}
-	return (close(game->fd), 0);
+	if (texture_file_check(tex))
+		return (close(map->fd), 1);
+	return (close(map->fd), 0);
 }

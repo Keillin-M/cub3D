@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/10 17:18:18 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/12 18:49:17 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,30 @@
 # include "libft.h"
 # include "get_next_line.h"
 
+typedef struct s_tex
+{
+	int			no;
+	int			so;
+	int			we;
+	int			ea;
+	int			c;
+	int			f;
+	int			count;
+	char		***texture;
+}	t_tex;
+
 typedef struct s_map
 {
-	int		x;
-	int		y;
-	int		line_len;
-	int		total_row;
-	int		player;
-	int		count;
-	char	*line;
-	char	**map;
-	char	**map_cpy;
-	char	***texture;
+	int			x;
+	int			y;
+	int			fd;
+	int			line_len;
+	int			total_row;
+	int			player;
+	char		*line;
+	char		**map;
+	char		**map_cpy;
+	char		***texture;
 }	t_map;
 
 #endif

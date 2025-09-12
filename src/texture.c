@@ -3,41 +3,114 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/10 14:41:34 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/12 19:38:07 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
+#include <fcntl.h>
 
-void	id_check(t_map *map, char *temp)
+int	texture_file_check(t_tex *tex)
 {
-	if (temp[0] == 'NO')
-		map->texture[0] = temp;
-	else if (temp[0] == 'SO')
-		map->texture[1] = temp;
-	else if (temp[0] == 'WE')
-		map->texture[2] = temp;
-	else if (temp[0] == 'EA')
-		map->texture[3] = temp;
-	else if (temp[0] == 'F')
-		map->texture[4] = temp;
-	else if (temp[0] == 'C')
-		map->texture[5] = temp;
+	int	fd;
+	int	i;
 
+	i = 0;
+	fd = 0;
+	if (tex->no == 1 && tex->so == 1 && tex->we == 1 && tex->ea == 1 
+		&& tex->c == 1 && tex->f == 1)
+	{
+		while (i < 4)
+		{
+			fd = open(tex->texture[i][1], O_RDONLY);
+			if (fd < 0)
+				return (perror("Error\nCannot open texture file"), 1);
+			close(fd);
+			i++;
+		}
+	}
+	else
+		return (perror("Error\nInvalid number of texture identifiers"), 1);
+	return (0);
 }
 
-int	texture_check(t_map *map)
+int	color_check(t_tex *tex, char **temp)
 {
-	char	*temp;
+	int		i;
+	int		val;
+	char	**rgb;
 
-	temp = split(line, " ");
+	rgb = ft_split(temp[1], ",");
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (1);
+	while (*rgb)
+	{
+		i = -1;
+		while ((*rgb)[++i])
+		{
+			if (!ft_isdigit((*rgb)[i]))
+				return (free_array(rgb), 1);
+		}
+		val = ft_atoi(*rgb);
+		if (val < 0 || val > 255)
+			return (free_array(rgb), 1);
+		rgb++;
+	}
+	return (free_array(rgb), 0);
+}
+
+void	id_check(t_tex *tex, char **temp)
+{
+	if (ft_strncmp(temp[0], "NO", 2) == 0)
+	{
+		tex->texture[0] = temp;
+		tex->no++;
+	}
+	else if (ft_strncmp(temp[0], "SO", 2) == 0)
+	{
+		tex->texture[1] = temp;
+		tex->so++;
+	}
+	else if (ft_strncmp(temp[0], "WE", 2) == 0)
+	{
+		tex->texture[2] = temp;
+		tex->we++;
+	}
+	else if (ft_strncmp(temp[0], "EA", 2) == 0)
+	{
+		tex->texture[3] = temp;
+		tex->ea++;
+	}
+	tex->count++;
+}
+
+int	texture_check(t_tex *tex, t_map *map)
+{
+	char	**temp;
+
+	temp = ft_split(map->line, " ");
 	if (!temp || temp[2])
 		return (1);
-	if (temp[1][0] != '.' && temp[1][1] != '/' && temp[1][2] != '-' \
-		&& temp[1][2] != '_' && !ft_isalnum(temp[1][2]))
-		return (1);
-	id_check(map, temp);
+	if (ft_strncmp(temp[0], "F", 1) == 0 || ft_strncmp(temp[0], "C", 1) == 0)
+	{
+		if (color_check(tex, temp))
+			return (1);
+		if (ft_strncmp(temp[0], "F", 1) == 0)
+		{
+			tex->texture[4] = temp;
+			tex->f++;
+		}
+		else if (ft_strncmp(temp[0], "C", 1) == 0)
+		{
+			tex->texture[5] = temp;
+			tex->c++;
+		}
+		tex->count++;
+	}
+	else
+		id_check(tex, temp);
+	return (0);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/10 13:46:17 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/12 14:16:06 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 int	char_check(t_map *map, int i, int j)
 {
@@ -19,8 +19,8 @@ int	char_check(t_map *map, int i, int j)
 				&& map->map_cpy[j][i] != 'W' && map->map_cpy[j][i] != 'E' \
 					&& map->map_cpy[j][i] != ' ')
 		return (perror("Invalid char in map"), 1);
-	if (map->map_cpy[j][i] == 'N' || && map->map_cpy[j][i] != 'S' \
-			&& map->map_cpy[j][i] != 'W' && map->map_cpy[j][i] != 'E')
+	if (map->map_cpy[j][i] == 'N' || map->map_cpy[j][i] == 'S' \
+			|| map->map_cpy[j][i] == 'W' || map->map_cpy[j][i] == 'E')
 	{
 		map->player++;
 		map->x = i;
@@ -54,11 +54,11 @@ int	map_wall(t_map *map)
 	if (())
 }
 
-static int	flood_fill(t_game *game, int y, int x)
+int	flood_fill(t_map *game, int y, int x)
 {
 	if (y < 0 || x < 0 || y >= game->total_row || x >= game->line_len)
 		return (1);
-	if (game->map_cpy[y][x] == '1' || game->map_cpy[y][x] == 'X'
+	if (game->map_cpy[y][x] == '1' || game->map_cpy[y][x] == 'X' 
 		|| game->map_cpy[y][x] == 'A')
 		return (0);
 	if (game->map_cpy[y][x] == 'E')
