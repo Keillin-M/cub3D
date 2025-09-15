@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/12 18:49:17 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/15 18:58:47 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ typedef struct s_map
 	int			x;
 	int			y;
 	int			fd;
-	int			line_len;
-	int			total_row;
+	int			width;
+	int			height;
 	int			player;
+	int			count;
+	char		*fd_name;
 	char		*line;
 	char		**map;
 	char		**map_cpy;
