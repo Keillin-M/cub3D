@@ -1,6 +1,6 @@
 NAME = cub3D
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -no-pie
 
 LIBFT_DIR = libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
@@ -24,8 +24,12 @@ OBJ_DIR = obj
 INCLUDES = -I$(INCLUDE_DIR) -I. -I$(LIBFT_DIR)
 
 # Source files
-SRCS = $(SRC_DIR)/cub3D.c \
-	$(SRC_DIR)/utils.c \
+SRCS = $(SRC_DIR)/cub3d.c \
+	$(SRC_DIR)/texture.c \
+	${SRC_DIR}/init.c \
+	$(SRC_DIR)/map_utils.c \
+	$(SRC_DIR)/map_check.c \
+	$(SRC_DIR)/clean.c
 
 # object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -35,15 +39,15 @@ all: $(MLX_LIB) $(LIBFT_LIB) $(OBJ_DIR) $(NAME)
 $(MLX_LIB):
 	@if [ ! -d $(MLX_DIR) ]; then \
 		echo "Cloning MiniLibX..."; \
-		git clone $(MLX_REPO) $(MLX_DIR); \
+		git clone $(MLX_REPO) $(MLX_DIR) --quiet; \
 	fi
-	@$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -s -C $(MLX_DIR)
 
 $(LIBFT_LIB):
-	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -s -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(MLX_FLAGS) $(LIBFT_LIB) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) $(MLX_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ $(NAME) built successfully!$(NC)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)

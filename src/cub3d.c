@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/08 17:27:13 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/17 15:04:20 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,17 @@ static int	map_ext(char *argv)
 
 int	main(int argc, char **argv)
 {
+	t_map	map;
+	t_tex	tex;
+
 	if (argc != 2)
 		return (perror("Wrong number of arguments"), 1);
 	if (map_ext(argv[1]))
 		return (1);
-	ft_init(game);
-	if (ft_open(&game, argv))
+	ft_init(&map, &tex);
+	if (read_file(&map, &tex, argv))
+		return (ft_clean_map(&map), 1);
+	/*if (ft_open(&game, argv))
 		return (exit(0), 1);
 	if (draw_map(&game, 0, 0))
 		game.error = 1;
@@ -50,6 +55,6 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);
-	mlx_loop(game.mlx);
+	mlx_loop(game.mlx);*/
 	return (0);
 }

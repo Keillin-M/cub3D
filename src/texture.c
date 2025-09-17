@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/15 15:15:12 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/17 17:25:30 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 int	texture_file_check(t_tex *tex)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
+	char	*trimmed;
 
 	i = 0;
 	fd = 0;
@@ -25,6 +26,9 @@ int	texture_file_check(t_tex *tex)
 	{
 		while (i < 4)
 		{
+			trimmed = ft_strtrim(tex->texture[i][1], "\n");
+			free(tex->texture[i][1]);
+			tex->texture[i][1] = trimmed;
 			fd = open(tex->texture[i][1], O_RDONLY);
 			if (fd < 0)
 				return (perror("Error\nCannot open texture file"), 1);
@@ -37,29 +41,22 @@ int	texture_file_check(t_tex *tex)
 	return (0);
 }
 
-int	color_check(t_tex *tex, char **temp)
+int	color_check(char *temp)
 {
-	int		i;
 	int		val;
 	char	**rgb;
 
-	rgb = ft_split(temp[1], ",");
+	rgb = ft_split(temp, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		return (1);
 	while (*rgb)
 	{
-		i = -1;
-		while ((*rgb)[++i])
-		{
-			if (!ft_isdigit((*rgb)[i]))
-				return (free_array(rgb), 1);
-		}
 		val = ft_atoi(*rgb);
 		if (val < 0 || val > 255)
 			return (free_array(rgb), 1);
 		rgb++;
 	}
-	return (free_array(rgb), 0);
+	return (0);
 }
 
 void	id_check(t_tex *tex, char **temp)
@@ -91,12 +88,12 @@ int	texture_check(t_tex *tex, t_map *map)
 {
 	char	**temp;
 
-	temp = ft_split(map->line, " ");
+	temp = ft_split(map->line, ' ');
 	if (!temp || temp[2])
 		return (1);
 	if (ft_strncmp(temp[0], "F", 1) == 0 || ft_strncmp(temp[0], "C", 1) == 0)
 	{
-		if (color_check(tex, temp))
+		if (color_check(temp[1]))
 			return (1);
 		if (ft_strncmp(temp[0], "F", 1) == 0)
 		{

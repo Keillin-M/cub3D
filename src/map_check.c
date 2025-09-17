@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/15 16:04:37 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/17 17:32:28 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ int	char_check(t_map *map, int i, int j)
 
 int	flood_fill(t_map *map, int y, int x)
 {
+	int	len;
+
 	if (y < 0 || x < 0 || y >= map->height || x >= map->width)
+		return (1);
+	len = ft_strlen(map->map_cpy[y]);
+	if (x >= len || map->map_cpy[y][x] == '\n')
 		return (1);
 	if (map->map_cpy[y][x] == '1' || map->map_cpy[y][x] == 'X')
 		return (0);
@@ -44,14 +49,19 @@ int	flood_fill(t_map *map, int y, int x)
 	return (0);
 }
 
-int	map_check(t_map *map, int i, int j)
+int	map_check(t_map *map)
 {
-	if ((map->height > 1080) || (map->width > 1920))
-		return (perror("Map is too big"), 1);
+	int	i;
+	int	j;
+	int	len;
+
+	map->player = 0;
+	j = 0;
 	while (j < map->height)
 	{
 		i = 0;
-		while (i < map->width)
+		len = ft_strlen(map->map_cpy[j]);
+		while (i < len && map->map_cpy[j][i] != '\n')
 		{
 			if (char_check(map, i, j))
 				return (1);
