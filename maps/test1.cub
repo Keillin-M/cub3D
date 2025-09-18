@@ -2,6 +2,7 @@ NO ./textures/D.xpm
 SO ./textures/D1.xpm
 WE ./textures/D2.xpm
 EA ./textures/floor.xpm
+
 F 220,100,0
 C 225,30,0
 

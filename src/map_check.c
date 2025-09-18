@@ -6,11 +6,44 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/17 17:32:28 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/18 17:26:47 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check(t_map *map, int y, int x)
+{
+	if (map->map_cpy[y][x] == ' ' || map->map_cpy[y][x] == '\n')
+		return (1);
+	return (0);
+}
+
+int	edge_check(t_map *map)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	j = 0;
+	while (j < map->height)
+	{
+		i = 0;
+		len = ft_strlen(map->map_cpy[j]);
+		while (i < len && map->map_cpy[j][i] != '\n')
+		{
+			if (map->map_cpy[j][i] == 'X' || map->map_cpy[j][i] == 'N')
+			{
+				if (check(map, j + 1, i + 1) || check(map, j + 1, i - 1) \
+					|| check(map, j - 1, i + 1) || check(map, j - 1, i - 1))
+					return (1);
+			}
+			i++;
+		}
+		j++;
+	}
+	return (0);
+}
 
 int	char_check(t_map *map, int i, int j)
 {
@@ -41,11 +74,12 @@ int	flood_fill(t_map *map, int y, int x)
 	if (map->map_cpy[y][x] == '1' || map->map_cpy[y][x] == 'X')
 		return (0);
 	if (map->map_cpy[y][x] == ' ')
-		return (1);
+		map->map_cpy[y][x] = '1';
 	map->map_cpy[y][x] = 'X';
-	if (flood_fill(map, y - 1, x) || flood_fill(map, y + 1, x) 
-		|| flood_fill(map, y, x + 1) || flood_fill(map, y, x - 1))
-		return (1);
+	flood_fill(map, y - 1, x);
+	flood_fill(map, y + 1, x);
+	flood_fill(map, y, x + 1);
+	flood_fill(map, y, x - 1);
 	return (0);
 }
 
@@ -71,7 +105,7 @@ int	map_check(t_map *map)
 	}
 	if (map->player != 1)
 		return (perror("Must be one player"), 1);
-	if (flood_fill(map, map->y, map->x))
+	if (flood_fill(map, map->y, map->x) || edge_check(map))
 		return (perror("Error\nMap must be surrounded by walls"), 1);
 	return (0);
 }
