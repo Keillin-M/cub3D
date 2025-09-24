@@ -34,10 +34,23 @@ static int	map_ext(char *argv)
 	return (1);
 }
 
+int	ft_open(t_map *map, t_tex *tex, t_game *game)
+{
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (1);
+	ft_xpm(map, tex, game);
+	game->win = mlx_new_window(game->mlx, 1920, 1080, "cub3D");
+	if (!game->win)
+		return (1);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_map	map;
 	t_tex	tex;
+	t_game	game;
 
 	if (argc != 2)
 		return (perror("Wrong number of arguments"), 1);
@@ -46,9 +59,10 @@ int	main(int argc, char **argv)
 	ft_init(&map, &tex);
 	if (read_file(&map, &tex, argv))
 		return (ft_clean_map(&map), 1);
-	/*if (ft_open(&game, argv))
+	game->mlx = mlx_init();
+	if (ft_open(&game, argv))
 		return (exit(0), 1);
-	if (draw_map(&game, 0, 0))
+	/*if (draw_map(&game, 0, 0))
 		game.error = 1;
 	if (game.error)
 		return (ft_close(&game), 1);

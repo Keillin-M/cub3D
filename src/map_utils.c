@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/17 17:32:22 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/24 16:24:03 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	map_size(t_map *map)
 	return (0);
 }
 
-int	draw_map(t_map *map)
+int	copy_map(t_map *map)
 {
 	int	row;
 	int	len;
@@ -110,7 +110,7 @@ int	read_line(t_map *map, t_tex *tex)
 		free(map->line);
 		map->line = get_next_line(map->fd);
 	}
-	if (draw_map(map))
+	if (copy_map(map))
 		return (1);
 	return (0);
 }

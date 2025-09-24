@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/17 17:25:30 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/23 16:45:08 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,30 @@ void	id_check(t_tex *tex, char **temp)
 	tex->count++;
 }
 
+char	**space_trim(t_map *map)
+{
+	char		*trimmed;
+	char	**temp;
+
+	trimmed = ft_strtrim(map->line, " \n\t");
+	if (!trimmed)
+		return (NULL);
+	temp = ft_split(trimmed, ' ');
+	free(map->line);
+	map->line = trimmed;
+	if (!temp || temp[2])
+	{
+		free_array(temp);
+		return (NULL);
+	}
+	return (temp);
+}
+
 int	texture_check(t_tex *tex, t_map *map)
 {
 	char	**temp;
 
-	temp = ft_split(map->line, ' ');
-	if (!temp || temp[2])
-		return (1);
+	temp = space_trim(map);
 	if (ft_strncmp(temp[0], "F", 1) == 0 || ft_strncmp(temp[0], "C", 1) == 0)
 	{
 		if (color_check(temp[1]))

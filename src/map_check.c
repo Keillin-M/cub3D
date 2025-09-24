@@ -58,6 +58,14 @@ int	char_check(t_map *map, int i, int j)
 		map->player++;
 		map->x = i;
 		map->y = j;
+		if (map->map_cpy[j][i] == 'N')
+			map->dir = "N";
+		else if (map->map_cpy[j][i] == 'S')
+			map->dir = "S";
+		else if (map->map_cpy[j][i] == 'W')
+			map->dir = "W";
+		else
+			map->dir = "E";
 	}
 	return (0);
 }

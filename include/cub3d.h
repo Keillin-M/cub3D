@@ -41,12 +41,19 @@ typedef struct s_map
 	int			height;
 	int			player;
 	int			count;
+	char			dir;
 	char		*fd_name;
 	char		*line;
 	char		**map;
 	char		**map_cpy;
 	char		***texture;
 }	t_map;
+
+typedef struct s_game
+{
+	void	*mlx;
+	void	*win;
+}
 
 // Initialization
 void	ft_init(t_map *map, t_tex *tex);
