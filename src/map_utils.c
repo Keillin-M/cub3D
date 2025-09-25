@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/24 16:24:03 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:39:20 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	map_size(t_map *map)
 	close(map->fd);
 	map->map = malloc(sizeof(char *) * (map->count + 1));
 	map->map_cpy = malloc(sizeof(char *) * (map->count + 1));
-	if (!map->map || !map->map_cpy)
-		return (perror("Error\nmalloc failed"), 1);
+	if (ft_malloc_check(map->map) || ft_malloc_check(map->map_cpy))
+		return (1);
 	map->map[map->count] = NULL;
 	map->map_cpy[map->count] = NULL;
 	if (skip_to_map(map))

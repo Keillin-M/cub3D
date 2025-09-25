@@ -6,11 +6,53 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/17 15:05:34 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/25 17:09:01 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	ft_init_player2(t_game *game)
+{
+	if (game->map->dir == 'E')
+	{
+		game->player.dir_x = 1.0f;
+		game->player.dir_y = 0.0f;
+		game->player.cam_plane_x = 0.0f;
+		game->player.cam_plane_y = 0.66f;
+	}
+	else if (game->map->dir == 'W')
+	{
+		game->player.dir_x = -1.0f;
+		game->player.dir_y = 0.0f;
+		game->player.cam_plane_x = 0.0f;
+		game->player.cam_plane_y = -0.66f;
+	}
+}
+
+void	ft_init_player(t_game *game)
+{
+	game->player.x = (float)game->map->x + 0.5f;
+	game->player.y = (float)game->map->y + 0.5f;
+	if (game->map->dir == 'N')
+	{
+		game->player.dir_x = 0.0f;
+		game->player.dir_y = -1.0f;
+		game->player.cam_plane_x = 0.66f;
+		game->player.cam_plane_y = 0.0f;
+	}
+	else if (game->map->dir == 'S')
+	{
+		game->player.dir_x = 0.0f;
+		game->player.dir_y = 1.0f;
+		game->player.cam_plane_x = -0.66f;
+		game->player.cam_plane_y = 0.0f;
+	}
+	else
+		ft_init_player2(game);
+	game->player.mov_speed = 0.1f;
+	game->player.rot_speed = 0.05f;
+}
 
 void	ft_init(t_map *map, t_tex *tex)
 {
@@ -34,6 +76,5 @@ void	ft_init(t_map *map, t_tex *tex)
 	tex->f = 0;
 	tex->count = 0;
 	tex->texture = malloc(sizeof(char **) * 6);
-	if (!tex->texture)
-		return ;
+	ft_malloc_check(tex->texture);
 }
