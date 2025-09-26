@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/25 17:08:24 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/26 16:05:43 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ typedef struct s_player
 	float	y;
 	float	dir_x;
 	float	dir_y;
-	float	mov_speed;
-	float	rot_speed;
-	float	cam_plane_x;
-	float	cam_plane_y;
+	float	speed;
+	float	rot;
+	float	plane_x;
+	float	plane_y;
+	int		turn_dir;
 }	t_player;
 
 // Game functions

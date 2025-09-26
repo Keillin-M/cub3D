@@ -6,52 +6,52 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/25 17:09:01 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/26 16:56:55 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_init_player2(t_game *game)
+static void	ft_init_player2(t_player *player, t_map *map)
 {
-	if (game->map->dir == 'E')
+	if (map->dir == 'E')
 	{
-		game->player.dir_x = 1.0f;
-		game->player.dir_y = 0.0f;
-		game->player.cam_plane_x = 0.0f;
-		game->player.cam_plane_y = 0.66f;
+		player->dir_x = 1.0f;
+		player->dir_y = 0.0f;
+		player->plane_x = 0.0f;
+		player->plane_y = 0.66f;
 	}
-	else if (game->map->dir == 'W')
+	else if (map->dir == 'W')
 	{
-		game->player.dir_x = -1.0f;
-		game->player.dir_y = 0.0f;
-		game->player.cam_plane_x = 0.0f;
-		game->player.cam_plane_y = -0.66f;
+		player->dir_x = -1.0f;
+		player->dir_y = 0.0f;
+		player->plane_x = 0.0f;
+		player->plane_y = -0.66f;
 	}
 }
 
-void	ft_init_player(t_game *game)
+void	ft_init_player(t_player *player, t_map *map)
 {
-	game->player.x = (float)game->map->x + 0.5f;
-	game->player.y = (float)game->map->y + 0.5f;
-	if (game->map->dir == 'N')
+	player->x = (float)map->x + 0.5f;
+	player->y = (float)map->y + 0.5f;
+	if (map->dir == 'N')
 	{
-		game->player.dir_x = 0.0f;
-		game->player.dir_y = -1.0f;
-		game->player.cam_plane_x = 0.66f;
-		game->player.cam_plane_y = 0.0f;
+		player->dir_x = 0.0f;
+		player->dir_y = -1.0f;
+		player->plane_x = 0.66f;
+		player->plane_y = 0.0f;
 	}
-	else if (game->map->dir == 'S')
+	else if (map->dir == 'S')
 	{
-		game->player.dir_x = 0.0f;
-		game->player.dir_y = 1.0f;
-		game->player.cam_plane_x = -0.66f;
-		game->player.cam_plane_y = 0.0f;
+		player->dir_x = 0.0f;
+		player->dir_y = 1.0f;
+		player->plane_x = -0.66f;
+		player->plane_y = 0.0f;
 	}
 	else
-		ft_init_player2(game);
-	game->player.mov_speed = 0.1f;
-	game->player.rot_speed = 0.05f;
+		ft_init_player2(player, map);
+	player->speed = 0.1f;
+	player->rot = 0.05f;
 }
 
 void	ft_init(t_map *map, t_tex *tex)

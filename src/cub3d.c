@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/25 17:09:21 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/26 15:05:48 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ int	ft_close(t_game *game)
 
 int	main(int argc, char **argv)
 {
-	t_map	map;
-	t_tex	tex;
-	t_game	game;
+	t_map		map;
+	t_tex		tex;
+	t_game		game;
+	t_player	player;
 
 	if (argc != 2)
 		return (perror("Wrong number of arguments"), 1);
@@ -80,7 +81,7 @@ int	main(int argc, char **argv)
 	game.tex = &tex;
 	if (ft_open(&game))
 		return (ft_clean_map(&map), 1);
-	ft_init_player(&game);
+	ft_init_player(&player, &map);
 	/*if (draw_map(&game, 0, 0))
 		game.error = 1;
 	if (game.error)
