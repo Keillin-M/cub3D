@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 15:46:54 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:35:54 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	ft_open(t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
-	//ft_xpm(game);
 	game->win = mlx_new_window(game->mlx, 1920, 1080, "cub3D");
 	if (!game->win)
 		return (1);

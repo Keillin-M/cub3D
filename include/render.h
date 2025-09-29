@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/09/29 16:16:02 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:35:54 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,51 +140,17 @@ typedef struct s_render
 
 /* Initialization functions */
 int init_mlx(t_game *game);
-int init_img(t_game *game, t_img *img, int width, int height);
-int init_render(t_game *game);
-void cleanup_render(t_game *game);
 
 /* Window management */
 int create_window(t_game *game);
 int handle_close(t_game *game);
 int handle_keypress(int keycode, t_game *game);
-int handle_keyrelease(int keycode, t_game *game);
 
-/* Drawing functions */
-void put_pixel(t_img *img, int x, int y, int color);
-int get_pixel(t_img *img, int x, int y);
-void clear_image(t_img *img, int color);
-void draw_line(t_img *img, int x0, int y0, int x1, int y1, int color);
-void draw_rect(t_img *img, int x, int y, int width, int height, int color);
 
-/* Raycasting functions */
-void cast_rays(t_game *game);
-void cast_single_ray(t_game *game, int x);
-void init_ray(t_game *game, t_ray *ray, int x);
-void perform_dda(t_game *game, t_ray *ray);
-void calculate_wall_distance(t_ray *ray);
-void calculate_wall_height(t_ray *ray);
-
-/* Rendering functions */
-void render_frame(t_game *game);
-void render_background(t_game *game);
-void render_walls(t_game *game);
-void render_wall_stripe(t_game *game, t_ray *ray, int x);
 
 /* Texture functions */
-int load_textures(t_game *game);
-void free_textures(t_game *game);
 int get_texture_pixel(t_texture *texture, int x, int y);
-void apply_texture_to_wall(t_game *game, t_ray *ray, int x);
 
-/* Utility functions */
-double deg_to_rad(double degrees);
-double rad_to_deg(double radians);
-int create_color(int r, int g, int b);
-void get_rgb(int color, int *r, int *g, int *b);
 
-/* Debug functions */
-void print_ray_info(t_ray *ray);
-void print_player_info(t_player *player);
 
 #endif
