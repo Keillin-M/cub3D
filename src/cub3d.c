@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 09:25:47 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 15:34:02 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(int argc, char **argv)
 	if (ft_open(&game))
 		return (ft_clean_map(&map), 1);
 	ft_init_player(&player, &map);
+	game.player = player;  // Connect the player to the game structure
 	/*if (draw_map(&game, 0, 0))
 		game.error = 1;
 	if (game.error)
