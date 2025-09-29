@@ -16,6 +16,9 @@
 # include <mlx.h>
 # include "parser.h"
 
+// Forward declaration for render functions
+typedef struct s_render t_render;
+
 typedef struct s_player
 {
 	float	x;
@@ -36,7 +39,11 @@ typedef struct s_game
 	t_map		*map;
 	t_tex		*tex;
 	t_player	player;
+	t_render	*render;
 }	t_game;
+
+// Include rendering functions after forward declaration
+# include "render.h"
 
 // Game functions
 void	ft_init_player(t_player *player, t_map *map);
@@ -44,5 +51,8 @@ int		ft_key_event(int keycode, t_game *game);
 int		ft_close(t_game *game);
 void	ft_destroy_img(t_game *game);
 int		render(t_game *game);
+int		init_game(t_game *game, char **argv);
+void	cleanup_game(t_game *game);
+int		game_loop(t_game *game);
 
 #endif

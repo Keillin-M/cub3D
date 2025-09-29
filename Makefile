@@ -34,8 +34,15 @@ SRCS = $(SRC_DIR)/cub3d.c \
 	$(SRC_DIR)/events.c \
 	$(SRC_DIR)/render.c
 
+# Test source files
+TEST_SRCS = $(SRC_DIR)/test_main.c \
+	$(SRC_DIR)/render.c \
+	$(SRC_DIR)/render_utils.c \
+	$(SRC_DIR)/test_render.c
+
 # object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+TEST_OBJS = $(TEST_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(MLX_LIB) $(LIBFT_LIB) $(OBJ_DIR) $(NAME)
 
@@ -53,6 +60,10 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) $(MLX_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ $(NAME) built successfully!$(NC)"
 
+test: $(MLX_LIB) $(LIBFT_LIB) $(OBJ_DIR) $(TEST_OBJS)
+	@$(CC) $(CFLAGS) $(TEST_OBJS) $(LIBFT_LIB) $(MLX_FLAGS) -o test_render
+	@echo "$(GREEN)✓ test_render built successfully!$(NC)"
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "$(YELLOW)Compiling:$(NC) $<"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
@@ -67,7 +78,7 @@ clean:
 
 fclean: clean
 	@echo "$(RED)Removing $(NAME)..$(NC)"
-	@rm -f $(NAME)
+	@rm -f $(NAME) test_render
 	@if [ -d $(LIBFT_DIR) ]; then $(MAKE) fclean -C $(LIBFT_DIR); fi
 	@echo "$(RED)Removing MLX repository...$(NC)"
 	@rm -rf $(MLX_DIR)
@@ -78,4 +89,4 @@ rm-mlx:
 
 re: fclean all
 
-.PHONY: all clean fclean re rm-mlx
+.PHONY: all clean fclean re rm-mlx test
