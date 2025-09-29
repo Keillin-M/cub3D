@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:16:37 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:31:28 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,3 @@ void	ft_clean_map(t_map *map)
 	map->map = NULL;
 	return ;
 }
-
-
