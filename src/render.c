@@ -6,12 +6,16 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 09:52:15 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 10:03:20 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
+#include <math.h>
+
+// Forward declarations for internal functions
+void	render_walls_raycast(t_game *game, char *img_data, int line_len);
 
 /**
  * Initialize MiniLibX connection
@@ -104,7 +108,115 @@ void	put_pixel_to_img(char *img_data, int x, int y, int color, int line_len)
 }
 
 /**
- * Basic rendering function - draws background and prepares for raycasting
+ * Cast a single ray using the proper ray structure
+ * @param game: Game structure with map and player data  
+ * @param x: Screen column to cast ray for
+ */
+void	cast_single_ray(t_game *game, int x)
+{
+	t_ray	ray;
+	
+	// Initialize ray for this screen column
+	ray.camera_x = 2 * x / (double)1920 - 1;
+	ray.ray_dir_x = game->player.dir_x + game->player.plane_x * ray.camera_x;
+	ray.ray_dir_y = game->player.dir_y + game->player.plane_y * ray.camera_x;
+	
+	// Current position
+	ray.map_x = (int)game->player.x;
+	ray.map_y = (int)game->player.y;
+	
+	// Calculate delta distances
+	ray.delta_dist_x = (ray.ray_dir_x == 0) ? 1e30 : fabs(1 / ray.ray_dir_x);
+	ray.delta_dist_y = (ray.ray_dir_y == 0) ? 1e30 : fabs(1 / ray.ray_dir_y);
+	
+	// Calculate step and initial side_dist
+	if (ray.ray_dir_x < 0)
+	{
+		ray.step_x = -1;
+		ray.side_dist_x = (game->player.x - ray.map_x) * ray.delta_dist_x;
+	}
+	else
+	{
+		ray.step_x = 1;
+		ray.side_dist_x = (ray.map_x + 1.0 - game->player.x) * ray.delta_dist_x;
+	}
+	
+	if (ray.ray_dir_y < 0)
+	{
+		ray.step_y = -1;
+		ray.side_dist_y = (game->player.y - ray.map_y) * ray.delta_dist_y;
+	}
+	else
+	{
+		ray.step_y = 1;
+		ray.side_dist_y = (ray.map_y + 1.0 - game->player.y) * ray.delta_dist_y;
+	}
+	
+	// Perform DDA
+	ray.hit = 0;
+	while (ray.hit == 0)
+	{
+		if (ray.side_dist_x < ray.side_dist_y)
+		{
+			ray.side_dist_x += ray.delta_dist_x;
+			ray.map_x += ray.step_x;
+			ray.side = 0;
+		}
+		else
+		{
+			ray.side_dist_y += ray.delta_dist_y;
+			ray.map_y += ray.step_y;
+			ray.side = 1;
+		}
+		
+		// Check if ray has hit a wall
+		if (ray.map_x < 0 || ray.map_x >= game->map->width || 
+			ray.map_y < 0 || ray.map_y >= game->map->height ||
+			game->map->map[ray.map_y][ray.map_x] == '1')
+		{
+			ray.hit = 1;
+		}
+	}
+	
+	// Calculate distance
+	if (ray.side == 0)
+		ray.perp_wall_dist = (ray.map_x - game->player.x + (1 - ray.step_x) / 2) / ray.ray_dir_x;
+	else
+		ray.perp_wall_dist = (ray.map_y - game->player.y + (1 - ray.step_y) / 2) / ray.ray_dir_y;
+	
+	// Calculate line height
+	ray.line_height = (int)(1080 / ray.perp_wall_dist);
+	
+	// Calculate draw start and end
+	ray.draw_start = -ray.line_height / 2 + 1080 / 2;
+	if (ray.draw_start < 0)
+		ray.draw_start = 0;
+	ray.draw_end = ray.line_height / 2 + 1080 / 2;
+	if (ray.draw_end >= 1080)
+		ray.draw_end = 1080 - 1;
+	
+	// For now, we need access to the image buffer to draw directly
+	// TODO: Refactor this to use proper render structure
+	// This is a temporary solution to get basic raycasting working
+}
+
+/**
+ * Cast rays for all screen columns using existing function signature
+ * @param game: Game structure
+ */
+void	cast_rays(t_game *game)
+{
+	int	x;
+	
+	// Cast a ray for each screen column (every 4th pixel for performance)
+	for (x = 0; x < 1920; x += 4)
+	{
+		cast_single_ray(game, x);
+	}
+}
+
+/**
+ * Basic rendering function with integrated raycasting
  * @param game: Game structure with mlx, window, and game data
  * @return: 0 on success
  */
@@ -134,21 +246,129 @@ int	render(t_game *game)
 		}
 	}
 	
-	// TODO: Add raycasting here
-	// For now, draw a simple test wall in the center
-	for (y = 200; y < 880; y++) // Wall height
-	{
-		for (x = 950; x < 970; x++) // Wall width (center of screen)
-		{
-			put_pixel_to_img(img_data, x, y, 0xFF0000, line_len); // Red wall
-		}
-	}
+	// Perform raycasting and draw walls
+	render_walls_raycast(game, img_data, line_len);
 	
 	// Display the rendered frame
 	mlx_put_image_to_window(game->mlx, game->win, img, 0, 0);
 	mlx_destroy_image(game->mlx, img);
 	
 	return (0);
+}
+
+/**
+ * Perform raycasting and render walls
+ * @param game: Game structure  
+ * @param img_data: Image buffer to draw to
+ * @param line_len: Line length for image buffer
+ */
+void	render_walls_raycast(t_game *game, char *img_data, int line_len)
+{
+	int		x, y;
+	t_ray	ray;
+	int		color;
+	
+	// Cast a ray for each screen column (every 2nd pixel for performance)  
+	for (x = 0; x < 1920; x += 2)
+	{
+		// Initialize ray
+		ray.camera_x = 2 * x / (double)1920 - 1;
+		ray.ray_dir_x = game->player.dir_x + game->player.plane_x * ray.camera_x;
+		ray.ray_dir_y = game->player.dir_y + game->player.plane_y * ray.camera_x;
+		
+		// Current position
+		ray.map_x = (int)game->player.x;
+		ray.map_y = (int)game->player.y;
+		
+		// Calculate delta distances
+		ray.delta_dist_x = (ray.ray_dir_x == 0) ? 1e30 : fabs(1 / ray.ray_dir_x);
+		ray.delta_dist_y = (ray.ray_dir_y == 0) ? 1e30 : fabs(1 / ray.ray_dir_y);
+		
+		// Calculate step and initial side_dist
+		if (ray.ray_dir_x < 0)
+		{
+			ray.step_x = -1;
+			ray.side_dist_x = (game->player.x - ray.map_x) * ray.delta_dist_x;
+		}
+		else
+		{
+			ray.step_x = 1;
+			ray.side_dist_x = (ray.map_x + 1.0 - game->player.x) * ray.delta_dist_x;
+		}
+		
+		if (ray.ray_dir_y < 0)
+		{
+			ray.step_y = -1;
+			ray.side_dist_y = (game->player.y - ray.map_y) * ray.delta_dist_y;
+		}
+		else
+		{
+			ray.step_y = 1;
+			ray.side_dist_y = (ray.map_y + 1.0 - game->player.y) * ray.delta_dist_y;
+		}
+		
+		// Perform DDA
+		ray.hit = 0;
+		while (ray.hit == 0)
+		{
+			if (ray.side_dist_x < ray.side_dist_y)
+			{
+				ray.side_dist_x += ray.delta_dist_x;
+				ray.map_x += ray.step_x;
+				ray.side = 0;
+			}
+			else
+			{
+				ray.side_dist_y += ray.delta_dist_y;
+				ray.map_y += ray.step_y;
+				ray.side = 1;
+			}
+			
+			// Check if ray has hit a wall
+			if (ray.map_x < 0 || ray.map_x >= game->map->width || 
+				ray.map_y < 0 || ray.map_y >= game->map->height ||
+				game->map->map[ray.map_y][ray.map_x] == '1')
+			{
+				ray.hit = 1;
+			}
+		}
+		
+		// Calculate distance
+		if (ray.side == 0)
+			ray.perp_wall_dist = (ray.map_x - game->player.x + (1 - ray.step_x) / 2) / ray.ray_dir_x;
+		else
+			ray.perp_wall_dist = (ray.map_y - game->player.y + (1 - ray.step_y) / 2) / ray.ray_dir_y;
+		
+		// Calculate line height
+		ray.line_height = (int)(1080 / ray.perp_wall_dist);
+		
+		// Calculate draw start and end
+		ray.draw_start = -ray.line_height / 2 + 1080 / 2;
+		if (ray.draw_start < 0)
+			ray.draw_start = 0;
+		ray.draw_end = ray.line_height / 2 + 1080 / 2;
+		if (ray.draw_end >= 1080)
+			ray.draw_end = 1080 - 1;
+		
+		// Choose wall color - different colors for different sides and distance
+		if (ray.side == 0)
+			color = 0xFF0000; // Red for X-side walls
+		else
+			color = 0x800000; // Darker red for Y-side walls
+		
+		// Apply distance shading
+		if (ray.perp_wall_dist > 8)
+			color = color >> 2; // Much darker for very far walls
+		else if (ray.perp_wall_dist > 4)
+			color = color >> 1; // Darker for far walls
+		
+		// Draw the wall stripe  
+		for (y = ray.draw_start; y < ray.draw_end; y++)
+		{
+			put_pixel_to_img(img_data, x, y, color, line_len);
+			put_pixel_to_img(img_data, x + 1, y, color, line_len); // Fill the gap
+		}
+	}
 }
 
 // Placeholder implementation - TODO: Implement proper cleanup
