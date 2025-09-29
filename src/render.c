@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 10:11:38 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 11:13:23 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #include <stdio.h>
 #include <math.h>
 
-// Window and render constants
-#define WIN_WIDTH 1920
-#define WIN_HEIGHT 1080
+// Local render constants (WIN_WIDTH and WIN_HEIGHT are defined in render.h)
 #define RENDER_STEP 2    // Render every 2nd pixel for performance
 
 // Forward declarations for internal functions
