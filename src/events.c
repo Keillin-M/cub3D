@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:13:27 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/26 17:36:10 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/29 09:25:47 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <math.h>
 
 static int	is_valid_pos(t_map *map, int map_x, int map_y)
 {

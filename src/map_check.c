@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/18 17:26:47 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/29 09:25:47 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ int	char_check(t_map *map, int i, int j)
 		map->x = i;
 		map->y = j;
 		if (map->map_cpy[j][i] == 'N')
-			map->dir = "N";
+			map->dir = 'N';
 		else if (map->map_cpy[j][i] == 'S')
-			map->dir = "S";
+			map->dir = 'S';
 		else if (map->map_cpy[j][i] == 'W')
-			map->dir = "W";
+			map->dir = 'W';
 		else
-			map->dir = "E";
+			map->dir = 'E';
 	}
 	return (0);
 }

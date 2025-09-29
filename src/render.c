@@ -1,48 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
+/*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
 /*   Updated: 2025/09/29 09:25:47 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "cub3d.h"
 
-# include <mlx.h>
-# include "parser.h"
-
-typedef struct s_player
+// Placeholder implementation - TODO: Implement raycasting
+int	render(t_game *game)
 {
-	float	x;
-	float	y;
-	float	dir_x;
-	float	dir_y;
-	float	speed;
-	float	rot;
-	float	plane_x;
-	float	plane_y;
-	int		turn_dir;
-}	t_player;
+	(void)game; // Suppress unused parameter warning
+	// TODO: Implement raycasting algorithm
+	// TODO: Draw walls, floor, ceiling
+	return (0);
+}
 
-typedef struct s_game
+// Placeholder implementation - TODO: Implement proper cleanup
+void	ft_destroy_img(t_game *game)
 {
-	void		*mlx;
-	void		*win;
-	t_map		*map;
-	t_tex		*tex;
-	t_player	player;
-}	t_game;
-
-// Game functions
-void	ft_init_player(t_player *player, t_map *map);
-int		ft_key_event(int keycode, t_game *game);
-int		ft_close(t_game *game);
-void	ft_destroy_img(t_game *game);
-int		render(t_game *game);
-
-#endif
+	(void)game; // Suppress unused parameter warning
+	// TODO: Implement proper image cleanup
+	// This function should clean up any images loaded for textures
+}

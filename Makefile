@@ -29,7 +29,10 @@ SRCS = $(SRC_DIR)/cub3d.c \
 	${SRC_DIR}/init.c \
 	$(SRC_DIR)/map_utils.c \
 	$(SRC_DIR)/map_check.c \
-	$(SRC_DIR)/clean.c
+	$(SRC_DIR)/clean.c \
+	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/events.c \
+	$(SRC_DIR)/render.c
 
 # object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -66,6 +69,8 @@ fclean: clean
 	@echo "$(RED)Removing $(NAME)..$(NC)"
 	@rm -f $(NAME)
 	@if [ -d $(LIBFT_DIR) ]; then $(MAKE) fclean -C $(LIBFT_DIR); fi
+	@echo "$(RED)Removing MLX repository...$(NC)"
+	@rm -rf $(MLX_DIR)
 
 rm-mlx:
 	@echo "$(RED)Removing MLX repository...$(NC)"

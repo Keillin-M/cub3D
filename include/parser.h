@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:30:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/25 16:50:47 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/29 09:25:47 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void	id_check(t_tex *tex, char **temp);
 // Memory Management
 void	free_array(char **array);
 void	ft_clean_map(t_map *map);
+int		ft_malloc_check(void *ptr);
 
 #endif
