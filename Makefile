@@ -65,6 +65,7 @@ $(OBJ_DIR):
 clean:
 	@echo "$(RED)Cleaning object files..$(NC)"
 	@rm -rf $(OBJ_DIR)
+	@if [ -d $(LIBFT_DIR) ]; then $(MAKE) clean -C $(LIBFT_DIR); fi
 	@if [ -d $(MLX_DIR) ]; then $(MAKE) clean -C $(MLX_DIR); fi
 
 fclean: clean
