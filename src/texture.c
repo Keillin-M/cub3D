@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/23 16:45:08 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,20 @@ int	color_check(char *temp)
 {
 	int		val;
 	char	**rgb;
+	char	**rgb_start;
 
 	rgb = ft_split(temp, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
-		return (1);
+		return (free_array(rgb), 1);
+	rgb_start = rgb;
 	while (*rgb)
 	{
 		val = ft_atoi(*rgb);
 		if (val < 0 || val > 255)
-			return (free_array(rgb), 1);
+			return (free_array(rgb_start), 1);
 		rgb++;
 	}
+	free_array(rgb_start);
 	return (0);
 }
 

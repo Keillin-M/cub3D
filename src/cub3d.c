@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 16:35:54 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,17 @@ int	ft_open(t_game *game)
 
 int	ft_close(t_game *game)
 {
-	if (game->map->layout)
+	// Clean up textures and images (this also frees game->render)
+	if (game->render)
 		ft_destroy_img(game);
-	ft_clean_map(game->map);
+	
+	// Clean up map and texture data
+	if (game->map)
+		ft_clean_map(game->map);
+	if (game->tex)
+		ft_clean_tex(game->tex);
+	
+	// Clean up MLX resources
 	if (game->win)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)

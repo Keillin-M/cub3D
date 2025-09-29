@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:16:37 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/25 17:09:32 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,26 @@ void	free_array(char **array)
 	while (array[i])
 		free(array[i++]);
 	free(array);
+}
+
+void	ft_clean_tex(t_tex *tex)
+{
+	int	i;
+
+	if (!tex || !tex->texture)
+		return ;
+	i = 0;
+	while (i < 6)
+	{
+		if (tex->texture[i])
+		{
+			free_array(tex->texture[i]);
+			tex->texture[i] = NULL;
+		}
+		i++;
+	}
+	free(tex->texture);
+	tex->texture = NULL;
 }
 
 void	ft_clean_map(t_map *map)
