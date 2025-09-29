@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/09/29 11:00:07 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:16:02 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@
 #define COLOR_WHITE 0xFFFFFF
 #define COLOR_BLACK 0x000000
 #define COLOR_GRAY 0x808080
+
+/* Minimap constants */
+#define MINIMAP_SIZE 200        /* Minimap dimensions */
+#define MINIMAP_SCALE 20        /* Pixels per map unit */
+#define MINIMAP_X (WIN_WIDTH - MINIMAP_SIZE - 20)   /* Top-right position */
+#define MINIMAP_Y 20
+#define MINIMAP_WALL_COLOR 0x404040     /* Dark gray for walls */
+#define MINIMAP_FLOOR_COLOR 0xC0C0C0    /* Light gray for floor */
+#define MINIMAP_PLAYER_COLOR 0xFF0000   /* Red dot for player */
+#define MINIMAP_BORDER_COLOR 0x808080   /* Gray border */
 
 /* Math constants */
 #define PI 3.14159265359
@@ -121,6 +131,7 @@ typedef struct s_render
     int ceiling_color;     /* Ceiling color */
     double fps;            /* Frames per second */
     int frame_count;       /* Frame counter */
+    int show_minimap;      /* Toggle minimap display */
 } t_render;
 
 /* ************************************************************************** */

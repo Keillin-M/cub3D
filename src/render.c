@@ -6,16 +6,34 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 15:46:54 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:16:02 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 // Local render constants (WIN_WIDTH and WIN_HEIGHT are defined in render.h)
-#define RENDER_STEP 2    // Render every 2nd pixel for performance
+#define RENDER_STEP_HIGH 1   // High quality - every pixel
+#define RENDER_STEP_MED 2    // Medium quality - every 2nd pixel  
+#define RENDER_STEP_LOW 3    // Low quality - every 3rd pixel
+
+// Dynamic quality based on FPS
+static int	get_render_step(t_game *game)
+{
+	if (!game->render)
+		return (RENDER_STEP_MED);
+		
+	// Adjust quality based on FPS
+	if (game->render->fps >= 45)
+		return (RENDER_STEP_HIGH);  // High quality when FPS is good
+	else if (game->render->fps >= 25)
+		return (RENDER_STEP_MED);   // Medium quality for moderate FPS
+	else
+		return (RENDER_STEP_LOW);   // Low quality to maintain playability
+}
 
 // Forward declarations for internal functions
 void	render_walls_raycast(t_game *game, char *img_data, int line_len);
@@ -122,7 +140,25 @@ int	render(t_game *game)
 	void	*img;
 	char	*img_data;
 	int		bpp, line_len, endian;
-	int		x, y;
+	static clock_t	last_time = 0;
+	static int		fps_counter = 0;
+	clock_t			current_time;
+	
+	// FPS tracking
+	current_time = clock();
+	if (game->render)
+	{
+		game->render->frame_count++;
+		fps_counter++;
+		
+		// Update FPS every second
+		if (current_time - last_time >= CLOCKS_PER_SEC)
+		{
+			game->render->fps = fps_counter;
+			fps_counter = 0;
+			last_time = current_time;
+		}
+	}
 	
 	// Create image for better performance
 	img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -131,26 +167,25 @@ int	render(t_game *game)
 		
 	img_data = mlx_get_data_addr(img, &bpp, &line_len, &endian);
 	
-	// Draw background - ceiling and floor with parsed colors
+	// Draw background - ceiling and floor with parsed colors (optimized)
 	int ceiling_color = (game->render) ? game->render->ceiling_color : 0x87CEEB;
 	int floor_color = (game->render) ? game->render->floor_color : 0x8B4513;
 	
-	for (y = 0; y < WIN_HEIGHT; y++)
-	{
-		for (x = 0; x < WIN_WIDTH; x++)
-		{
-			if (y < WIN_HEIGHT / 2)
-				put_pixel_to_img(img_data, x, y, ceiling_color, line_len); // Ceiling
-			else
-				put_pixel_to_img(img_data, x, y, floor_color, line_len);   // Floor
-		}
-	}
+	render_background_optimized(img_data, line_len, ceiling_color, floor_color);
 	
 	// Perform raycasting and draw walls
 	render_walls_raycast(game, img_data, line_len);
 	
 	// Display the rendered frame
 	mlx_put_image_to_window(game->mlx, game->win, img, 0, 0);
+	
+	// Draw FPS counter and performance info
+	draw_performance_info(game);
+	
+	// Draw minimap overlay if enabled
+	if (game->render && game->render->show_minimap)
+		draw_minimap(game);
+	
 	mlx_destroy_image(game->mlx, img);
 	
 	return (0);
@@ -168,8 +203,9 @@ void	render_walls_raycast(t_game *game, char *img_data, int line_len)
 	t_ray	ray;
 	int		color;
 	
-	// Cast a ray for each screen column (every nth pixel for performance)  
-	for (x = 0; x < WIN_WIDTH; x += RENDER_STEP)
+	// Cast a ray for each screen column (adaptive quality based on performance)
+	int render_step = get_render_step(game);
+	for (x = 0; x < WIN_WIDTH; x += render_step)
 	{
 		// Initialize ray
 		ray.camera_x = 2 * x / (double)WIN_WIDTH - 1;
@@ -342,9 +378,9 @@ void	render_walls_raycast(t_game *game, char *img_data, int line_len)
 			else if (ray.perp_wall_dist > 4)
 				color = (color >> 1) & 0x7F7F7F; // Darker for far walls
 			
-			// Draw pixels (fill RENDER_STEP pixels to avoid gaps)
+			// Draw pixels (fill render_step pixels to avoid gaps)
 			int i;
-			for (i = 0; i < RENDER_STEP && (x + i) < WIN_WIDTH; i++)
+			for (i = 0; i < render_step && (x + i) < WIN_WIDTH; i++)
 				put_pixel_to_img(img_data, x + i, y, color, line_len);
 		}
 	}
@@ -490,6 +526,9 @@ int	init_textures(t_game *game)
 	else
 		render->ceiling_color = 0x87CEEB; // Default sky blue ceiling
 	
+	// Initialize minimap as enabled by default
+	render->show_minimap = 1;
+	
 	printf("✅ Enhanced rendering initialized (textures + colors)\n");
 	return (1);
 }
@@ -567,6 +606,201 @@ int	init_game(t_game *game, char **argv)
 	// This should be integrated with Person 1's parsing code
 	
 	return (1);
+}
+
+/**
+ * Draw performance information on screen
+ * @param game: Game structure
+ */
+void	draw_performance_info(t_game *game)
+{
+	char	fps_str[50];
+	char	frame_str[50];
+	char	pos_str[100];
+	
+	if (!game->render)
+		return;
+		
+	// Format FPS string
+	sprintf(fps_str, "FPS: %.0f", game->render->fps);
+	
+	// Format frame count string  
+	sprintf(frame_str, "Frames: %d", game->render->frame_count);
+	
+	// Format player position and FOV string
+	sprintf(pos_str, "Pos: (%.1f, %.1f) FOV: %.2f", 
+		game->player.x, game->player.y, game->player.fov);
+	
+	// Draw performance info (white text on top-left)
+	mlx_string_put(game->mlx, game->win, 10, 20, 0xFFFFFF, fps_str);
+	mlx_string_put(game->mlx, game->win, 10, 40, 0xFFFFFF, frame_str);
+	mlx_string_put(game->mlx, game->win, 10, 60, 0xFFFFFF, pos_str);
+	
+	// Draw controls info (bottom-left)
+	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 140, 0xFFFF00, "Controls:");
+	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 120, 0xFFFF00, "WASD - Move");
+	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 100, 0xFFFF00, "Arrows - Rotate");
+	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 80, 0xFFFF00, "Q/E - Zoom In/Out");
+	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 60, 0xFFFF00, "M - Toggle Minimap");
+	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 40, 0xFFFF00, "ESC - Exit");
+}
+
+/**
+ * Draw a minimap in the top-right corner
+ * @param game: Game structure containing map and player data
+ */
+void	draw_minimap(t_game *game)
+{
+	int		x, y;
+	int		pixel_x, pixel_y;
+	int		color;
+	
+	if (!game->map || !game->map->map)
+		return;
+		
+	// Draw minimap border
+	draw_minimap_border(game);
+	
+	// Draw map tiles
+	for (y = 0; y < game->map->height && y * MINIMAP_SCALE < MINIMAP_SIZE; y++)
+	{
+		for (x = 0; x < game->map->width && x * MINIMAP_SCALE < MINIMAP_SIZE; x++)
+		{
+			// Calculate screen position
+			pixel_x = MINIMAP_X + x * MINIMAP_SCALE;
+			pixel_y = MINIMAP_Y + y * MINIMAP_SCALE;
+			
+			// Choose color based on map content
+			if (y < game->map->height && x < (int)ft_strlen(game->map->map[y]))
+			{
+				if (game->map->map[y][x] == '1')
+					color = MINIMAP_WALL_COLOR;   // Wall
+				else
+					color = MINIMAP_FLOOR_COLOR;  // Floor
+			}
+			else
+				color = MINIMAP_WALL_COLOR;      // Out of bounds = wall
+			
+			// Draw tile (small rectangle)
+			draw_minimap_tile(game, pixel_x, pixel_y, color);
+		}
+	}
+	
+	// Draw player position and direction
+	draw_minimap_player(game);
+}
+
+/**
+ * Draw minimap border
+ */
+void	draw_minimap_border(t_game *game)
+{
+	int	i;
+	
+	// Top and bottom borders
+	for (i = 0; i < MINIMAP_SIZE + 4; i++)
+	{
+		mlx_pixel_put(game->mlx, game->win, MINIMAP_X - 2 + i, MINIMAP_Y - 2, MINIMAP_BORDER_COLOR);
+		mlx_pixel_put(game->mlx, game->win, MINIMAP_X - 2 + i, MINIMAP_Y + MINIMAP_SIZE + 1, MINIMAP_BORDER_COLOR);
+	}
+	
+	// Left and right borders  
+	for (i = 0; i < MINIMAP_SIZE + 4; i++)
+	{
+		mlx_pixel_put(game->mlx, game->win, MINIMAP_X - 2, MINIMAP_Y - 2 + i, MINIMAP_BORDER_COLOR);
+		mlx_pixel_put(game->mlx, game->win, MINIMAP_X + MINIMAP_SIZE + 1, MINIMAP_Y - 2 + i, MINIMAP_BORDER_COLOR);
+	}
+}
+
+/**
+ * Draw a single minimap tile
+ */
+void	draw_minimap_tile(t_game *game, int x, int y, int color)
+{
+	int	dx, dy;
+	
+	// Draw a small rectangle for each tile
+	for (dy = 0; dy < MINIMAP_SCALE - 1; dy++)
+	{
+		for (dx = 0; dx < MINIMAP_SCALE - 1; dx++)
+		{
+			if (x + dx < WIN_WIDTH && y + dy < WIN_HEIGHT)
+				mlx_pixel_put(game->mlx, game->win, x + dx, y + dy, color);
+		}
+	}
+}
+
+/**
+ * Draw player position and direction on minimap  
+ */
+void	draw_minimap_player(t_game *game)
+{
+	int	player_screen_x, player_screen_y;
+	int	dx, dy, i;
+	
+	// Calculate player position on minimap
+	player_screen_x = MINIMAP_X + (int)(game->player.x * MINIMAP_SCALE);
+	player_screen_y = MINIMAP_Y + (int)(game->player.y * MINIMAP_SCALE);
+	
+	// Draw player dot (3x3 pixels)
+	for (dy = -1; dy <= 1; dy++)
+	{
+		for (dx = -1; dx <= 1; dx++)
+		{
+			if (player_screen_x + dx >= MINIMAP_X && 
+				player_screen_x + dx < MINIMAP_X + MINIMAP_SIZE &&
+				player_screen_y + dy >= MINIMAP_Y && 
+				player_screen_y + dy < MINIMAP_Y + MINIMAP_SIZE)
+			{
+				mlx_pixel_put(game->mlx, game->win, 
+					player_screen_x + dx, player_screen_y + dy, MINIMAP_PLAYER_COLOR);
+			}
+		}
+	}
+	
+	// Draw direction line
+	for (i = 1; i <= 15; i++)
+	{
+		int	dir_x = player_screen_x + (int)(game->player.dir_x * i);
+		int	dir_y = player_screen_y + (int)(game->player.dir_y * i);
+		
+		if (dir_x >= MINIMAP_X && dir_x < MINIMAP_X + MINIMAP_SIZE &&
+			dir_y >= MINIMAP_Y && dir_y < MINIMAP_Y + MINIMAP_SIZE)
+		{
+			mlx_pixel_put(game->mlx, game->win, dir_x, dir_y, MINIMAP_PLAYER_COLOR);
+		}
+	}
+}
+
+/**
+ * Optimize background rendering with horizontal lines
+ * @param img_data: Image buffer
+ * @param line_len: Line length
+ * @param ceiling_color: Ceiling color
+ * @param floor_color: Floor color
+ */
+void	render_background_optimized(char *img_data, int line_len, 
+	int ceiling_color, int floor_color)
+{
+	int	y, x;
+	
+	// Draw ceiling (top half)
+	for (y = 0; y < WIN_HEIGHT / 2; y++)
+	{
+		for (x = 0; x < WIN_WIDTH; x++)
+		{
+			put_pixel_to_img(img_data, x, y, ceiling_color, line_len);
+		}
+	}
+	
+	// Draw floor (bottom half)  
+	for (y = WIN_HEIGHT / 2; y < WIN_HEIGHT; y++)
+	{
+		for (x = 0; x < WIN_WIDTH; x++)
+		{
+			put_pixel_to_img(img_data, x, y, floor_color, line_len);
+		}
+	}
 }
 
 /**

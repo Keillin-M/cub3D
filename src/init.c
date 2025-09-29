@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/26 16:56:55 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/29 16:10:09 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void	ft_init_player2(t_player *player, t_map *map)
 		player->dir_x = 1.0f;
 		player->dir_y = 0.0f;
 		player->plane_x = 0.0f;
-		player->plane_y = 0.66f;
+		player->plane_y = player->fov;
 	}
 	else if (map->dir == 'W')
 	{
 		player->dir_x = -1.0f;
 		player->dir_y = 0.0f;
 		player->plane_x = 0.0f;
-		player->plane_y = -0.66f;
+		player->plane_y = -player->fov;
 	}
 }
 
@@ -34,18 +34,19 @@ void	ft_init_player(t_player *player, t_map *map)
 {
 	player->x = (float)map->x + 0.5f;
 	player->y = (float)map->y + 0.5f;
+	player->fov = 0.66f;  // Initialize default FOV
 	if (map->dir == 'N')
 	{
 		player->dir_x = 0.0f;
 		player->dir_y = -1.0f;
-		player->plane_x = 0.66f;
+		player->plane_x = player->fov;
 		player->plane_y = 0.0f;
 	}
 	else if (map->dir == 'S')
 	{
 		player->dir_x = 0.0f;
 		player->dir_y = 1.0f;
-		player->plane_x = -0.66f;
+		player->plane_x = -player->fov;
 		player->plane_y = 0.0f;
 	}
 	else
