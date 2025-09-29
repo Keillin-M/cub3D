@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:37:47 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,12 @@ int	ft_open(t_game *game)
 
 int	ft_close(t_game *game)
 {
-	// Clean up textures and images (this also frees game->render)
 	if (game->render)
 		ft_destroy_img(game);
-	
-	// Clean up map and texture data
 	if (game->map)
 		ft_clean_map(game->map);
 	if (game->tex)
 		ft_clean_tex(game->tex);
-	
-	// Clean up MLX resources
 	if (game->win)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)
@@ -66,6 +61,25 @@ int	ft_close(t_game *game)
 		free(game->mlx);
 	}
 	return (exit(0), 0);
+}
+
+static int	setup_game(t_game *game, t_map *map, t_tex *tex, t_player *player)
+{
+	game->mlx = NULL;
+	game->win = NULL;
+	game->map = map;
+	game->tex = tex;
+	if (ft_open(game))
+		return (1);
+	ft_init_player(player, map);
+	game->player = *player;
+	game->render = NULL;
+	if (!init_textures(game))
+	{
+		ft_printf("Error: Failed to initialize textures\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -82,29 +96,8 @@ int	main(int argc, char **argv)
 	ft_init(&map, &tex);
 	if (read_file(&map, &tex, argv))
 		return (ft_clean_map(&map), 1);
-	game.mlx = NULL;
-	game.win = NULL;
-	game.map = &map;
-	game.tex = &tex;
-	if (ft_open(&game))
+	if (setup_game(&game, &map, &tex, &player))
 		return (ft_clean_map(&map), 1);
-	ft_init_player(&player, &map);
-	game.player = player;  // Connect the player to the game structure
-	
-	// Initialize render structure first
-	game.render = NULL;
-	
-	// Initialize textures for enhanced rendering
-	if (!init_textures(&game))
-	{
-		ft_printf("Error: Failed to initialize textures\n");
-		return (ft_close(&game), 1);
-	}
-	
-	/*if (draw_map(&game, 0, 0))
-		game.error = 1;
-	if (game.error)
-		return (ft_close(&game), 1);*/
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);

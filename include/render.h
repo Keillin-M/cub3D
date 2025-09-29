@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/09/29 17:23:38 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:37:47 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include "cub3d.h"
+
+typedef struct s_game	t_game;
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
