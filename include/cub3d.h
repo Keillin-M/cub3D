@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 09:40:18 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/29 15:46:54 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,10 @@ int		render(t_game *game);
 int		init_game(t_game *game, char **argv);
 void	cleanup_game(t_game *game);
 int		game_loop(t_game *game);
+// Enhanced rendering functions
+int		init_textures(t_game *game);
+int		load_texture(t_game *game, t_texture *texture, char *filepath);
+int		get_texture_pixel(t_texture *texture, int x, int y);
+int		rgb_to_color(char *rgb_str);
 
 #endif
