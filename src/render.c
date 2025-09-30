@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 13:47:27 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:01:08 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,6 @@ int	render(t_game *game)
 	
 	// Destroy image buffer
 	mlx_destroy_image(game->mlx, img);
-	
-	// Draw FPS counter and performance info
-	draw_performance_info(game);
 	
 	return (0);
 }
@@ -607,43 +604,6 @@ int	init_game(t_game *game, char **argv)
 	// This should be integrated with Person 1's parsing code
 	
 	return (1);
-}
-
-/**
- * Draw performance information on screen
- * @param game: Game structure
- */
-void	draw_performance_info(t_game *game)
-{
-	char	fps_str[50];
-	char	frame_str[50];
-	char	pos_str[100];
-	
-	if (!game->render)
-		return;
-		
-	// Format FPS string
-	sprintf(fps_str, "FPS: %.0f", game->render->fps);
-	
-	// Format frame count string  
-	sprintf(frame_str, "Frames: %d", game->render->frame_count);
-	
-	// Format player position and FOV string
-	sprintf(pos_str, "Pos: (%.1f, %.1f) FOV: %.2f", 
-		game->player.x, game->player.y, game->player.fov);
-	
-	// Draw performance info (white text on top-left)
-	mlx_string_put(game->mlx, game->win, 10, 20, 0xFFFFFF, fps_str);
-	mlx_string_put(game->mlx, game->win, 10, 40, 0xFFFFFF, frame_str);
-	mlx_string_put(game->mlx, game->win, 10, 60, 0xFFFFFF, pos_str);
-	
-	// Draw controls info (bottom-left)
-	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 140, 0xFFFF00, "Controls:");
-	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 120, 0xFFFF00, "WASD - Move");
-	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 100, 0xFFFF00, "Arrows - Rotate");
-	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 80, 0xFFFF00, "Q/E - Zoom In/Out");
-	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 60, 0xFFFF00, "M - Toggle Minimap");
-	mlx_string_put(game->mlx, game->win, 10, WIN_HEIGHT - 40, 0xFFFF00, "ESC - Exit");
 }
 
 /**

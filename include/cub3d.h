@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 13:12:55 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:01:08 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int		init_textures(t_game *game);
 int		load_texture(t_game *game, t_texture *texture, char *filepath);
 int		get_texture_pixel(t_texture *texture, int x, int y);
 int		rgb_to_color(char *rgb_str);
-void	draw_performance_info(t_game *game);
 void	render_background_optimized(char *img_data, int line_len,
 			int ceiling_color, int floor_color);
 void	draw_minimap(t_game *game);
