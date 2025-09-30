@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 17:08:40 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 12:37:11 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	draw_performance_info(t_game *game);
 void	render_background_optimized(char *img_data, int line_len,
 			int ceiling_color, int floor_color);
 void	draw_minimap(t_game *game);
+void	draw_minimap_to_buffer(t_game *game, char *img_data, int line_len);
 void	draw_minimap_border(t_game *game);
 void	draw_minimap_tile(t_game *game, int x, int y, int color);
 void	draw_minimap_player(t_game *game);

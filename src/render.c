@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 12:25:29 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 12:37:11 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,17 +176,18 @@ int	render(t_game *game)
 	// Perform raycasting and draw walls
 	render_walls_raycast(game, img_data, line_len);
 	
-	// Display the rendered frame
+	// Draw minimap overlay into image buffer if enabled (BEFORE displaying)
+	if (game->render && game->render->show_minimap)
+		draw_minimap_to_buffer(game, img_data, line_len);
+	
+	// Display the rendered frame with minimap included
 	mlx_put_image_to_window(game->mlx, game->win, img, 0, 0);
+	
+	// Destroy image buffer
+	mlx_destroy_image(game->mlx, img);
 	
 	// Draw FPS counter and performance info
 	draw_performance_info(game);
-	
-	// Draw minimap overlay if enabled
-	if (game->render && game->render->show_minimap)
-		draw_minimap(game);
-	
-	mlx_destroy_image(game->mlx, img);
 	
 	return (0);
 }
@@ -646,7 +647,105 @@ void	draw_performance_info(t_game *game)
 }
 
 /**
- * Draw a minimap in the top-right corner
+ * Helper function to put pixel into image buffer
+ */
+static void	put_pixel_to_buffer(char *img_data, int x, int y, int color, int line_len)
+{
+	char	*dst;
+	
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+	{
+		dst = img_data + (y * line_len + x * (32 / 8));
+		*(unsigned int*)dst = color;
+	}
+}
+
+/**
+ * Draw a minimap into image buffer (no flicker)
+ * @param game: Game structure containing map and player data
+ */
+void	draw_minimap_to_buffer(t_game *game, char *img_data, int line_len)
+{
+	int		x, y;
+	int		pixel_x, pixel_y;
+	int		color;
+	int		dynamic_scale;
+	int		dx, dy, i;
+	
+	if (!game->map || !game->map->map)
+		return;
+	
+	// Calculate dynamic scale to fit entire map in minimap area
+	int scale_x = MINIMAP_SIZE / game->map->width;
+	int scale_y = MINIMAP_SIZE / game->map->height;
+	dynamic_scale = (scale_x < scale_y) ? scale_x : scale_y;
+	if (dynamic_scale < 1)
+		dynamic_scale = 1;  // Minimum 1 pixel per tile
+	
+	// Draw minimap border
+	for (i = 0; i < MINIMAP_SIZE + 4; i++)
+	{
+		put_pixel_to_buffer(img_data, MINIMAP_X - 2 + i, MINIMAP_Y - 2, MINIMAP_BORDER_COLOR, line_len);
+		put_pixel_to_buffer(img_data, MINIMAP_X - 2 + i, MINIMAP_Y + MINIMAP_SIZE + 1, MINIMAP_BORDER_COLOR, line_len);
+		put_pixel_to_buffer(img_data, MINIMAP_X - 2, MINIMAP_Y - 2 + i, MINIMAP_BORDER_COLOR, line_len);
+		put_pixel_to_buffer(img_data, MINIMAP_X + MINIMAP_SIZE + 1, MINIMAP_Y - 2 + i, MINIMAP_BORDER_COLOR, line_len);
+	}
+		
+	// Draw map tiles with dynamic scaling
+	for (y = 0; y < game->map->height; y++)
+	{
+		for (x = 0; x < game->map->width; x++)
+		{
+			// Calculate screen position with dynamic scaling
+			pixel_x = MINIMAP_X + x * dynamic_scale;
+			pixel_y = MINIMAP_Y + y * dynamic_scale;
+			
+			// Choose color based on map content
+			if (y < game->map->height && x < (int)ft_strlen(game->map->map[y]))
+			{
+				if (game->map->map[y][x] == '1')
+					color = MINIMAP_WALL_COLOR;   // Wall
+				else
+					color = MINIMAP_FLOOR_COLOR;  // Floor
+			}
+			else
+				color = MINIMAP_WALL_COLOR;      // Out of bounds = wall
+			
+			// Draw tile into buffer
+			for (dy = 0; dy < dynamic_scale - 1; dy++)
+			{
+				for (dx = 0; dx < dynamic_scale - 1; dx++)
+				{
+					put_pixel_to_buffer(img_data, pixel_x + dx, pixel_y + dy, color, line_len);
+				}
+			}
+		}
+	}
+	
+	// Draw player position and direction
+	int	player_screen_x = MINIMAP_X + (int)(game->player.x * dynamic_scale);
+	int	player_screen_y = MINIMAP_Y + (int)(game->player.y * dynamic_scale);
+	
+	// Draw player dot (3x3 pixels)
+	for (dy = -1; dy <= 1; dy++)
+	{
+		for (dx = -1; dx <= 1; dx++)
+		{
+			put_pixel_to_buffer(img_data, player_screen_x + dx, player_screen_y + dy, MINIMAP_PLAYER_COLOR, line_len);
+		}
+	}
+	
+	// Draw direction line
+	for (i = 1; i <= 15; i++)
+	{
+		int	dir_x = player_screen_x + (int)(game->player.dir_x * i);
+		int	dir_y = player_screen_y + (int)(game->player.dir_y * i);
+		put_pixel_to_buffer(img_data, dir_x, dir_y, MINIMAP_PLAYER_COLOR, line_len);
+	}
+}
+
+/**
+ * Draw a minimap in the top-right corner (legacy - for window drawing)
  * @param game: Game structure containing map and player data
  */
 void	draw_minimap(t_game *game)
