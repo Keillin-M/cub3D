@@ -6,11 +6,12 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 16:10:09 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 13:07:10 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <math.h>
 
 static void	ft_init_player2(t_player *player, t_map *map)
 {
@@ -20,6 +21,7 @@ static void	ft_init_player2(t_player *player, t_map *map)
 		player->dir_y = 0.0f;
 		player->plane_x = 0.0f;
 		player->plane_y = player->fov;
+		player->rot = 0.0f;       // East = 0 degrees
 	}
 	else if (map->dir == 'W')
 	{
@@ -27,6 +29,7 @@ static void	ft_init_player2(t_player *player, t_map *map)
 		player->dir_y = 0.0f;
 		player->plane_x = 0.0f;
 		player->plane_y = -player->fov;
+		player->rot = 3.14159f;   // West = 180 degrees (π)
 	}
 }
 
@@ -41,6 +44,7 @@ void	ft_init_player(t_player *player, t_map *map)
 		player->dir_y = -1.0f;
 		player->plane_x = player->fov;
 		player->plane_y = 0.0f;
+		player->rot = -1.5708f;   // North = -90 degrees (-π/2)
 	}
 	else if (map->dir == 'S')
 	{
@@ -48,11 +52,11 @@ void	ft_init_player(t_player *player, t_map *map)
 		player->dir_y = 1.0f;
 		player->plane_x = -player->fov;
 		player->plane_y = 0.0f;
+		player->rot = 1.5708f;    // South = 90 degrees (π/2)
 	}
 	else
 		ft_init_player2(player, map);
 	player->speed = 0.1f;
-	player->rot = 0.05f;
 }
 
 void	ft_init(t_map *map, t_tex *tex)
