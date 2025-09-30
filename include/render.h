@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/09/29 17:37:47 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 19:35:35 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,6 @@ typedef struct s_game	t_game;
 # define TWO_PI 6.28318530718
 # define PI_2 1.57079632679
 # define PI_3 1.04719755119
-
-# define KEY_ESC 53
-# define KEY_W 13
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_UP 126
-# define KEY_DOWN 125
 
 # define MOUSE_LEFT 1
 # define MOUSE_RIGHT 2
@@ -119,8 +109,6 @@ typedef struct s_render
 
 int	init_mlx(t_game *game);
 int	create_window(t_game *game);
-int	handle_close(t_game *game);
-int	handle_keypress(int keycode, t_game *game);
 int	get_texture_pixel(t_texture *texture, int x, int y);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 14:48:38 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 19:23:54 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	ft_destroy_img(t_game *game);
 int		render(t_game *game);
 int		init_game(t_game *game, char **argv);
 void	cleanup_game(t_game *game);
-int		game_loop(t_game *game);
 int		init_textures(t_game *game);
 int		load_texture(t_game *game, t_texture *texture, char *filepath);
 int		get_texture_pixel(t_texture *texture, int x, int y);

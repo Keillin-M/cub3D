@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 15:06:40 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 19:41:13 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,15 @@ int	ft_close(t_game *game)
 	if (game->tex)
 		ft_clean_tex(game->tex);
 	if (game->win)
+	{
 		mlx_destroy_window(game->mlx, game->win);
+		game->win = NULL;
+	}
 	if (game->mlx)
 	{
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
+		game->mlx = NULL;
 	}
 	return (exit(0), 0);
 }
@@ -75,11 +79,11 @@ static int	setup_game(t_game *game, t_map *map, t_tex *tex, t_player *player)
 	game->win = NULL;
 	game->map = map;
 	game->tex = tex;
+	game->render = NULL;
 	if (ft_open(game))
 		return (1);
 	ft_init_player(player, map);
 	game->player = *player;
-	game->render = NULL;
 	if (!init_textures(game))
 	{
 		ft_printf("Error: Failed to initialize textures\n");

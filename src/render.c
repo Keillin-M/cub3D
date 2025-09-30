@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 14:58:03 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 19:54:59 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,6 @@ void	render_walls_raycast(t_game *game, char *img_data, int line_len);
  * @param game: Game structure
  * @return: Always returns 0 to exit program
  */
-int handle_close(t_game *game)
-{
-    printf("Closing window...\n");
-    cleanup_game(game);
-    exit(0);
-    return (0);
-}
-
-/**
- * Handle key press events
- * @param keycode: The key that was pressed
- * @param game: Game structure
- * @return: 1 on success, 0 on failure
- */
-int handle_keypress(int keycode, t_game *game)
-{
-    if (keycode == 65307) // ESC key
-    {
-        printf("ESC pressed - closing game\n");
-        handle_close(game);
-    }
-    else
-    {
-        printf("Key pressed: %d\n", keycode);
-    }
-    return (1);
-}
 
 /**
  * Put pixel in image data
@@ -92,8 +65,6 @@ void	put_pixel_to_img(char *img_data, int x, int y, int color, int line_len)
 		img_data[pixel_index + 3] = 0;                     // Alpha
 	}
 }
-
-
 
 /**
  * Basic rendering function with integrated raycasting
@@ -449,22 +420,30 @@ int	init_textures(t_game *game)
 		}
 	}
 	render = game->render;
-	
+	int i;
 	// Load wall textures (NO=0, SO=1, WE=2, EA=3)
-	if (game->tex->texture[0] && game->tex->texture[0][1] &&
-		game->tex->texture[1] && game->tex->texture[1][1] &&
-		game->tex->texture[2] && game->tex->texture[2][1] &&
-		game->tex->texture[3] && game->tex->texture[3][1])
-	{
-		if (!load_texture(game, &render->textures[0], game->tex->texture[0][1]) ||
-			!load_texture(game, &render->textures[1], game->tex->texture[1][1]) ||
-			!load_texture(game, &render->textures[2], game->tex->texture[2][1]) ||
-			!load_texture(game, &render->textures[3], game->tex->texture[3][1]))
-		{
-			printf("Error: Failed to load wall textures\n");
-			return (0);
-		}
-	}
+	    for (i = 0; i < 4; i++)
+    {
+        render->textures[i].img.img = NULL;
+        render->textures[i].width = 0;
+        render->textures[i].height = 0;
+        render->textures[i].img.addr = NULL;
+    }
+    
+    // Initialize screen buffer to NULL
+    render->screen.img = NULL;
+    
+    // Then try to load textures
+    if (game->tex->texture[0] && game->tex->texture[0][1] &&
+        game->tex->texture[1] && game->tex->texture[1][1] &&
+        game->tex->texture[2] && game->tex->texture[2][1] &&
+        game->tex->texture[3] && game->tex->texture[3][1])
+    {
+        load_texture(game, &render->textures[0], game->tex->texture[0][1]);
+        load_texture(game, &render->textures[1], game->tex->texture[1][1]);
+        load_texture(game, &render->textures[2], game->tex->texture[2][1]);
+        load_texture(game, &render->textures[3], game->tex->texture[3][1]);
+    }
 	else
 	{
 		printf("Warning: Texture paths not found, using fallback colors\n");
@@ -805,44 +784,4 @@ void	render_background_optimized(char *img_data, int line_len,
 			put_pixel_to_img(img_data, x, y, floor_color, line_len);
 		}
 	}
-}
-
-/**
- * Cleanup game resources
- * @param game: Game structure to cleanup
- */
-void	cleanup_game(t_game *game)
-{
-	if (game->win)
-	{
-		mlx_destroy_window(game->mlx, game->win);
-		game->win = NULL;
-	}
-	
-	if (game->mlx)
-	{
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		game->mlx = NULL;
-	}
-	
-	printf("Game cleaned up successfully\n");
-}
-
-/**
- * Main game loop
- * @param game: Game structure
- * @return: Exit status
- */
-int	game_loop(t_game *game)
-{
-	// Set up event handlers
-	mlx_hook(game->win, 17, 0, handle_close, game);
-	mlx_hook(game->win, 2, 1L << 0, handle_keypress, game);
-	mlx_loop_hook(game->mlx, render, game);
-	
-	// Start the main loop
-	mlx_loop(game->mlx);
-	
-	return (0);
 }
