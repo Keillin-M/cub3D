@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 12:37:11 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 13:47:27 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -682,15 +682,6 @@ void	draw_minimap_to_buffer(t_game *game, char *img_data, int line_len)
 	if (dynamic_scale < 1)
 		dynamic_scale = 1;  // Minimum 1 pixel per tile
 	
-	// Draw minimap border
-	for (i = 0; i < MINIMAP_SIZE + 4; i++)
-	{
-		put_pixel_to_buffer(img_data, MINIMAP_X - 2 + i, MINIMAP_Y - 2, MINIMAP_BORDER_COLOR, line_len);
-		put_pixel_to_buffer(img_data, MINIMAP_X - 2 + i, MINIMAP_Y + MINIMAP_SIZE + 1, MINIMAP_BORDER_COLOR, line_len);
-		put_pixel_to_buffer(img_data, MINIMAP_X - 2, MINIMAP_Y - 2 + i, MINIMAP_BORDER_COLOR, line_len);
-		put_pixel_to_buffer(img_data, MINIMAP_X + MINIMAP_SIZE + 1, MINIMAP_Y - 2 + i, MINIMAP_BORDER_COLOR, line_len);
-	}
-		
 	// Draw map tiles with dynamic scaling
 	for (y = 0; y < game->map->height; y++)
 	{
