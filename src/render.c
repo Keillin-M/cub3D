@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 16:16:02 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 12:25:29 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -654,21 +654,29 @@ void	draw_minimap(t_game *game)
 	int		x, y;
 	int		pixel_x, pixel_y;
 	int		color;
+	int		dynamic_scale;
 	
 	if (!game->map || !game->map->map)
 		return;
+	
+	// Calculate dynamic scale to fit entire map in minimap area
+	int scale_x = MINIMAP_SIZE / game->map->width;
+	int scale_y = MINIMAP_SIZE / game->map->height;
+	dynamic_scale = (scale_x < scale_y) ? scale_x : scale_y;
+	if (dynamic_scale < 1)
+		dynamic_scale = 1;  // Minimum 1 pixel per tile
 		
 	// Draw minimap border
 	draw_minimap_border(game);
 	
-	// Draw map tiles
-	for (y = 0; y < game->map->height && y * MINIMAP_SCALE < MINIMAP_SIZE; y++)
+	// Draw map tiles with dynamic scaling
+	for (y = 0; y < game->map->height; y++)
 	{
-		for (x = 0; x < game->map->width && x * MINIMAP_SCALE < MINIMAP_SIZE; x++)
+		for (x = 0; x < game->map->width; x++)
 		{
-			// Calculate screen position
-			pixel_x = MINIMAP_X + x * MINIMAP_SCALE;
-			pixel_y = MINIMAP_Y + y * MINIMAP_SCALE;
+			// Calculate screen position with dynamic scaling
+			pixel_x = MINIMAP_X + x * dynamic_scale;
+			pixel_y = MINIMAP_Y + y * dynamic_scale;
 			
 			// Choose color based on map content
 			if (y < game->map->height && x < (int)ft_strlen(game->map->map[y]))
@@ -737,10 +745,18 @@ void	draw_minimap_player(t_game *game)
 {
 	int	player_screen_x, player_screen_y;
 	int	dx, dy, i;
+	int	dynamic_scale;
 	
-	// Calculate player position on minimap
-	player_screen_x = MINIMAP_X + (int)(game->player.x * MINIMAP_SCALE);
-	player_screen_y = MINIMAP_Y + (int)(game->player.y * MINIMAP_SCALE);
+	// Calculate dynamic scale (same as in draw_minimap)
+	int scale_x = MINIMAP_SIZE / game->map->width;
+	int scale_y = MINIMAP_SIZE / game->map->height;
+	dynamic_scale = (scale_x < scale_y) ? scale_x : scale_y;
+	if (dynamic_scale < 1)
+		dynamic_scale = 1;
+	
+	// Calculate player position on minimap with dynamic scaling
+	player_screen_x = MINIMAP_X + (int)(game->player.x * dynamic_scale);
+	player_screen_y = MINIMAP_Y + (int)(game->player.y * dynamic_scale);
 	
 	// Draw player dot (3x3 pixels)
 	for (dy = -1; dy <= 1; dy++)
