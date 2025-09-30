@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 00:00:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 14:01:08 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:58:03 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,41 +43,6 @@ void	render_walls_raycast(t_game *game, char *img_data, int line_len);
  * @param game: Game structure containing mlx pointer
  * @return: 1 on success, 0 on failure
  */
-int init_mlx(t_game *game)
-{
-    game->mlx = mlx_init();
-    if (!game->mlx)
-    {
-        printf("Error: Failed to initialize MiniLibX\n");
-        return (0);
-    }
-    printf("MiniLibX initialized successfully\n");
-    return (1);
-}
-
-/**
- * Create window with specified dimensions
- * @param game: Game structure containing mlx and win pointers
- * @return: 1 on success, 0 on failure
- */
-int create_window(t_game *game)
-{
-    if (!game->mlx)
-    {
-        printf("Error: MiniLibX not initialized\n");
-        return (0);
-    }
-
-    game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-    if (!game->win)
-    {
-        printf("Error: Failed to create window\n");
-        return (0);
-    }
-    printf("Window created: %dx%d - cub3D\n", WIN_WIDTH, WIN_HEIGHT);
-    return (1);
-}
-
 /**
  * Handle window close event
  * @param game: Game structure
@@ -577,33 +542,6 @@ void	ft_destroy_img(t_game *game)
 	// Free render structure
 	free(game->render);
 	game->render = NULL;
-}
-
-/**
- * Initialize the game structure and components
- * @param game: Game structure to initialize
- * @param argv: Command line arguments (for map file)
- * @return: 1 on success, 0 on failure
- */
-int	init_game(t_game *game, char **argv)
-{
-	(void)argv; // TODO: Use argv for map loading
-	
-	// Initialize MiniLibX
-	if (!init_mlx(game))
-		return (0);
-		
-	// Create window
-	if (!create_window(game))
-		return (0);
-		
-	// TODO: Initialize render system
-	game->render = NULL;
-	
-	// TODO: Load map and initialize player
-	// This should be integrated with Person 1's parsing code
-	
-	return (1);
 }
 
 /**

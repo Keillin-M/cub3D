@@ -6,11 +6,12 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 14:13:19 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:58:03 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "render.h"
 
 static int	map_ext(char *argv)
 {
@@ -39,13 +40,13 @@ int	ft_open(t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
-	game->win = mlx_new_window(game->mlx, 1920, 1080, "cub3D");
+	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->win)
 		return (1);
 	
 	// Hide mouse cursor and center it for FPS-style control
 	mlx_mouse_hide(game->mlx, game->win);
-	mlx_mouse_move(game->mlx, game->win, 1920/2, 1080/2);
+	mlx_mouse_move(game->mlx, game->win, WIN_WIDTH/2, WIN_HEIGHT/2);
 	
 	return (0);
 }
