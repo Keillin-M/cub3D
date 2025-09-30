@@ -6,12 +6,13 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:13:27 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 13:12:55 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:13:19 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
+#include <stdlib.h>
 
 static int	is_valid_pos(t_map *map, int map_x, int map_y)
 {
@@ -112,5 +113,45 @@ int	ft_key_event(int keycode, t_game *game)
 		ft_move(&game->player, game->map, mov);
 	if (rot)
 		ft_rotate(&game->player, rot);
+	return (0);
+}
+
+int	ft_mouse_event(int x, int y, t_game *game)
+{
+	static int	initialized = 0;
+	int			center_x;
+	int			center_y;
+	int			delta_x;
+	float		mouse_sensitivity;
+	
+	(void)y;  // Suppress unused parameter warning
+	mouse_sensitivity = 0.003f;  // Adjust this value to change sensitivity
+	
+	center_x = WIN_WIDTH / 2;
+	center_y = WIN_HEIGHT / 2;
+	
+	// Skip first few events to avoid initial jump
+	if (!initialized)
+	{
+		initialized = 1;
+		return (0);
+	}
+	
+	// Calculate horizontal mouse movement from center
+	delta_x = x - center_x;
+	
+	// Apply rotation based on mouse movement
+	if (abs(delta_x) > 5)  // Ignore very small movements to reduce noise
+	{
+		game->player.rot += delta_x * mouse_sensitivity;
+		game->player.dir_x = cos(game->player.rot);
+		game->player.dir_y = sin(game->player.rot);
+		game->player.plane_x = -sin(game->player.rot) * game->player.fov;
+		game->player.plane_y = cos(game->player.rot) * game->player.fov;
+		
+		// Reset mouse to center to allow continuous rotation
+		mlx_mouse_move(game->mlx, game->win, center_x, center_y);
+	}
+	
 	return (0);
 }

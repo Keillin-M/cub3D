@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 17:37:47 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:13:19 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	ft_open(t_game *game)
 	game->win = mlx_new_window(game->mlx, 1920, 1080, "cub3D");
 	if (!game->win)
 		return (1);
+	
+	// Hide mouse cursor and center it for FPS-style control
+	mlx_mouse_hide(game->mlx, game->win);
+	mlx_mouse_move(game->mlx, game->win, 1920/2, 1080/2);
+	
 	return (0);
 }
 
@@ -101,6 +106,7 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);
+	mlx_hook(game.win, 6, 1L << 6, ft_mouse_event, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }
