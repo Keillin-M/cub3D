@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 12:37:11 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 13:12:55 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_game
 }	t_game;
 void	ft_init_player(t_player *player, t_map *map);
 int		ft_key_event(int keycode, t_game *game);
-void	adjust_fov(t_player *player, float delta);
 void	toggle_minimap(t_game *game);
 int		ft_close(t_game *game);
 void	ft_destroy_img(t_game *game);

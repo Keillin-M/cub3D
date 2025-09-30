@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:13:27 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 16:16:02 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 13:12:55 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,6 @@ void	ft_rotate(t_player *player, char rot)
 	player->plane_y = cos(player->rot) * player->fov;
 }
 
-void	adjust_fov(t_player *player, float delta)
-{
-	player->fov += delta;
-	
-	// Clamp FOV between 0.2 (zoomed in) and 1.2 (wide angle)
-	if (player->fov < 0.2f)
-		player->fov = 0.2f;
-	if (player->fov > 1.2f)
-		player->fov = 1.2f;
-		
-	// Update camera plane based on new FOV
-	player->plane_x = -sin(player->rot) * player->fov;
-	player->plane_y = cos(player->rot) * player->fov;
-}
-
 void	toggle_minimap(t_game *game)
 {
 	if (game->render)
@@ -121,10 +106,6 @@ int	ft_key_event(int keycode, t_game *game)
 		rot = 'l';
 	else if (keycode == 65363)
 		rot = 'r';
-	else if (keycode == 'q')
-		adjust_fov(&game->player, -0.1f);  // Zoom in (decrease FOV)
-	else if (keycode == 'e')
-		adjust_fov(&game->player, 0.1f);   // Zoom out (increase FOV)
 	else if (keycode == 'm')
 		toggle_minimap(game);              // Toggle minimap display
 	if (mov == 'w' || mov == 's' || mov == 'a' || mov == 'd')
