@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/25 16:39:20 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:06:40 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ int	read_file(t_map *map, t_tex *tex, char **argv)
 	if (read_line(map, tex))
 		return (1);
 	if (texture_file_check(tex))
-		return (ft_clean_map(map), 1);
+		return (ft_clean_map(map), ft_clean_tex(tex), 1);
 	if (map_check(map))
-		return (ft_clean_map(map), 1);
+		return (ft_clean_map(map), ft_clean_tex(tex), 1);
 	return (0);
 }

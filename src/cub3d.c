@@ -6,7 +6,7 @@
 /*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 14:58:03 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:06:40 by tthajan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ int	main(int argc, char **argv)
 		return (1);
 	ft_init(&map, &tex);
 	if (read_file(&map, &tex, argv))
-		return (ft_clean_map(&map), 1);
+		return (ft_clean_map(&map), ft_clean_tex(&tex), 1);
 	if (setup_game(&game, &map, &tex, &player))
-		return (ft_clean_map(&map), 1);
+		return (ft_clean_map(&map), ft_clean_tex(&tex), 1);
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);
