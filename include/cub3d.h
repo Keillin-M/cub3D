@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 19:23:54 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/01 12:03:24 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ typedef struct s_game
 	t_tex		*tex;
 	t_player	player;
 	t_render	*render;
+	t_img		*img;
 }	t_game;
+
 void	ft_init_player(t_player *player, t_map *map);
 int		ft_key_event(int keycode, t_game *game);
 int		ft_mouse_event(int x, int y, t_game *game);

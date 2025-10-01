@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 19:41:13 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/01 19:05:02 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ int	ft_open(t_game *game)
 
 int	ft_close(t_game *game)
 {
-	if (game->render)
-		ft_destroy_img(game);
+	if (!game)
+		return (exit(0), 0);
 	if (game->map)
 		ft_clean_map(game->map);
 	if (game->tex)
 		ft_clean_tex(game->tex);
+	if (game->render)
+		ft_destroy_img(game);
 	if (game->win)
 	{
 		mlx_destroy_window(game->mlx, game->win);
@@ -111,7 +113,7 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);
-	mlx_hook(game.win, 6, 1L << 6, ft_mouse_event, &game);
+	//mlx_hook(game.win, 6, 1L << 6, ft_mouse_event, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }

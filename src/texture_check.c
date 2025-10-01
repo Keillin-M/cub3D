@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture.c                                          :+:      :+:    :+:   */
+/*   texture_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/10/01 19:48:53 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	texture_file_check(t_tex *tex)
 	return (0);
 }
 
-int	color_check(char *temp)
+int	color_check(char *temp, int *r, int *g, int *b)
 {
 	int		val;
 	char	**rgb;
@@ -50,14 +50,14 @@ int	color_check(char *temp)
 	rgb = ft_split(temp, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		return (free_array(rgb), 1);
+	*r = ft_atoi(rgb[0]);
+	*g = ft_atoi(rgb[1]);
+	*b = ft_atoi(rgb[2]);
+	free_array(rgb);
+	return (0);
 	rgb_start = rgb;
-	while (*rgb)
-	{
-		val = ft_atoi(*rgb);
-		if (val < 0 || val > 255)
-			return (free_array(rgb_start), 1);
-		rgb++;
-	}
+	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
+		return (free_array(rgb_start), 1);
 	free_array(rgb_start);
 	return (0);
 }
@@ -89,7 +89,7 @@ void	id_check(t_tex *tex, char **temp)
 
 char	**space_trim(t_map *map)
 {
-	char		*trimmed;
+	char	*trimmed;
 	char	**temp;
 
 	trimmed = ft_strtrim(map->line, " \n\t");
@@ -113,7 +113,9 @@ int	texture_check(t_tex *tex, t_map *map)
 	temp = space_trim(map);
 	if (ft_strncmp(temp[0], "F", 1) == 0 || ft_strncmp(temp[0], "C", 1) == 0)
 	{
-		if (color_check(temp[1]))
+		if (color_check(temp[1], &tex->floor_r, &tex->floor_g, &tex->floor_b)
+			== 1 || color_check(temp[1], &tex->ceiling_r, &tex->ceiling_g,
+				&tex->ceiling_b) == 1)
 			return (1);
 		if (ft_strncmp(temp[0], "F", 1) == 0)
 		{

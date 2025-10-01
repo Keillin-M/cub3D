@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/09/30 19:35:35 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/01 20:39:21 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,41 +31,21 @@ typedef struct s_game	t_game;
 # define COLOR_BLACK 0x000000
 # define COLOR_GRAY 0x808080
 
-# define MINIMAP_SIZE 200
-# define MINIMAP_SCALE 20
-# define MINIMAP_X 1700
-# define MINIMAP_Y 20
-# define MINIMAP_WALL_COLOR 0x404040
-# define MINIMAP_FLOOR_COLOR 0xC0C0C0
-# define MINIMAP_PLAYER_COLOR 0xFF0000
-# define MINIMAP_BORDER_COLOR 0x808080
-
 # define PI 3.14159265359
 # define TWO_PI 6.28318530718
 # define PI_2 1.57079632679
 # define PI_3 1.04719755119
 
-# define MOUSE_LEFT 1
-# define MOUSE_RIGHT 2
-# define MOUSE_MIDDLE 3
-
-# define ON_KEYDOWN 2
-# define ON_KEYUP 3
-# define ON_MOUSEDOWN 4
-# define ON_MOUSEUP 5
-# define ON_MOUSEMOVE 6
-# define ON_EXPOSE 12
-# define ON_DESTROY 17
-
 typedef struct s_img
 {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
+	int		bpp;
+	int		line_len;
 	int		endian;
 	int		width;
 	int		height;
+	int		render_step;
 }	t_img;
 
 typedef struct s_ray
@@ -107,8 +87,14 @@ typedef struct s_render
 	int			show_minimap;
 }	t_render;
 
+//MLX functions
 int	init_mlx(t_game *game);
 int	create_window(t_game *game);
-int	get_texture_pixel(t_texture *texture, int x, int y);
+
+//Texture functions
+int		load_texture(t_game *game, t_texture *tex, char *filepath);
+int		init_textures(t_game *game);
+int		get_texture_pixel(t_texture *tex, int x, int y);
+void	set_colors(t_game *game, t_render *render);
 
 #endif

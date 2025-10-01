@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:30:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/29 17:02:07 by tthajan          ###   ########.fr       */
+/*   Updated: 2025/10/01 19:43:53 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ typedef struct s_tex
 	int			c;
 	int			f;
 	int			count;
+	int			floor_r;
+	int			floor_g;
+	int			floor_b;
+	int			ceiling_r;
+	int			ceiling_g;
+	int			ceiling_b;
 	char		***texture;
 }	t_tex;
 

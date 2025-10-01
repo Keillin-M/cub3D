@@ -25,14 +25,21 @@ INCLUDES = -I$(INCLUDE_DIR) -I. -I$(LIBFT_DIR)
 
 # Source files
 SRCS = $(SRC_DIR)/cub3d.c \
-	$(SRC_DIR)/texture.c \
+	$(SRC_DIR)/texture_check.c \
 	${SRC_DIR}/init.c \
 	$(SRC_DIR)/map_utils.c \
 	$(SRC_DIR)/map_check.c \
 	$(SRC_DIR)/clean.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/events.c \
-	$(SRC_DIR)/render.c
+	$(SRC_DIR)/render.c \
+	$(SRC_DIR)/render_utils.c \
+	$(SRC_DIR)/draw.c \
+	$(SRC_DIR)/init_ray.c \
+	$(SRC_DIR)/raycast.c \
+	$(SRC_DIR)/get_color_tex.c \
+	$(SRC_DIR)/texture_load.c \
+	$(SRC_DIR)/texture_utils.c \
 
 # object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

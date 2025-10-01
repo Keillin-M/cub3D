@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:16:37 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/09/30 19:29:05 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/01 19:12:52 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,39 @@ void	free_array(char **array)
 	while (array[i])
 		free(array[i++]);
 	free(array);
+}
+
+void	ft_destroy_img(t_game *game)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 4)
+	{
+		if (game->render->textures[i].img.img)
+		{
+			mlx_destroy_image(game->mlx, 
+				game->render->textures[i].img.img);
+			game->render->textures[i].img.img = NULL;
+		}
+	}
+	if (game->img)
+	{
+		if (game->img->img)
+		{
+			mlx_destroy_image(game->mlx, game->img->img);
+			game->img->img = NULL;
+		}
+		free(game->img);
+		game->img = NULL;
+	}
+	if (game->render->screen.img)
+	{
+		mlx_destroy_image(game->mlx, game->render->screen.img);
+		game->render->screen.img = NULL;
+	}
+	free(game->render);
+	game->render = NULL;
 }
 
 void	ft_clean_tex(t_tex *tex)
@@ -48,10 +81,10 @@ void	ft_clean_map(t_map *map)
 {
 	int	i;
 
+	if (!map)
+		return ;
 	i = 0;
 	if (map->height <= 0)
-		return ;
-	if (!map->map || !map->map_cpy)
 		return ;
 	while (i < map->height)
 	{

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tthajan <tthajan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:13:27 by kmaeda            #+#    #+#             */
 /*   Updated: 2025/09/30 14:36:40 by tthajan          ###   ########.fr       */
