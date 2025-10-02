@@ -38,7 +38,6 @@ static void	step_and_side_dist(t_ray *ray, t_game *game)
 		ray->side_dist_x = (ray->map_x + 1.0 - game->player.x) 
 			* ray->delta_dist_x;
 	}
-
 	if (ray->ray_dir_y < 0)
 	{
 		ray->step_y = -1;

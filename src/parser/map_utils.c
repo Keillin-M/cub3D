@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 10:51:56 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 13:10:23 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int	skip_to_map(t_map *map)
+static int	skip_to_map(t_map *map)
 {
 	int		texture_count;
 	char	*line;
@@ -42,7 +44,7 @@ int	skip_to_map(t_map *map)
 	return (0);
 }
 
-int	map_size(t_map *map)
+static int	map_size(t_map *map)
 {
 	map->count = 0;
 	while (map->line)
@@ -63,7 +65,7 @@ int	map_size(t_map *map)
 	return (0);
 }
 
-int	copy_map(t_map *map)
+static int	copy_map(t_map *map)
 {
 	int	row;
 	int	len;

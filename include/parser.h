@@ -6,17 +6,13 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:30:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 19:43:53 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 18:01:55 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdlib.h>
 # include "../libft/libft.h"
 
 typedef struct s_tex
@@ -55,33 +51,19 @@ typedef struct s_map
 	char		***texture;
 }	t_map;
 
+typedef struct s_player	t_player;
+
 // Initialization
 void	ft_init(t_map *map, t_tex *tex);
+void	ft_init_player(t_player *player, t_map *map);
 
 // File Reading and Parsing
 int		read_file(t_map *map, t_tex *tex, char **argv);
 int		read_line(t_map *map, t_tex *tex);
 
-// Map Processing
-int		skip_to_map(t_map *map);
-int		map_size(t_map *map);
-int		draw_map(t_map *map);
-
 // Map Validation
 int		map_check(t_map *map);
-int		char_check(t_map *map, int i, int j);
-int		flood_fill(t_map *map, int y, int x);
-
-// Texture Processing
 int		texture_check(t_tex *tex, t_map *map);
 int		texture_file_check(t_tex *tex);
-int		color_check(char *temp);
-void	id_check(t_tex *tex, char **temp);
-
-// Memory Management
-void	free_array(char **array);
-void	ft_clean_map(t_map *map);
-void	ft_clean_tex(t_tex *tex);
-int		ft_malloc_check(void *ptr);
 
 #endif

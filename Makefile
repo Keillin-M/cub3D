@@ -2,8 +2,10 @@ NAME = cub3D
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -no-pie
 
+# Libraries
 LIBFT_DIR = libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
+INCLUDES = -I$(INCLUDE_DIR) -I. -I$(LIBFT_DIR)
 
 MLX_DIR = mlx
 MLX_LIB = $(MLX_DIR)/libmlx.a
@@ -21,25 +23,35 @@ NC = \033[0m
 SRC_DIR = src
 INCLUDE_DIR = include
 OBJ_DIR = obj
-INCLUDES = -I$(INCLUDE_DIR) -I. -I$(LIBFT_DIR)
+CUB3D_DIR = $(SRC_DIR)/cub3d
+MINIMAP_DIR = $(SRC_DIR)/minimap
+PARSER_DIR = $(SRC_DIR)/parser
+RENDER_DIR = $(SRC_DIR)/render
+UTILS_DIR = $(SRC_DIR)/utils
 
 # Source files
-SRCS = $(SRC_DIR)/cub3d.c \
-	$(SRC_DIR)/texture_check.c \
-	${SRC_DIR}/init.c \
-	$(SRC_DIR)/map_utils.c \
-	$(SRC_DIR)/map_check.c \
-	$(SRC_DIR)/clean.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/events.c \
-	$(SRC_DIR)/render.c \
-	$(SRC_DIR)/render_utils.c \
-	$(SRC_DIR)/draw.c \
-	$(SRC_DIR)/init_ray.c \
-	$(SRC_DIR)/raycast.c \
-	$(SRC_DIR)/get_color_tex.c \
-	$(SRC_DIR)/texture_load.c \
-	$(SRC_DIR)/texture_utils.c \
+CUB3D_SRCS = $(CUB3D_DIR)/cub3d.c \
+	$(CUB3D_DIR)/events.c \
+	$(CUB3D_DIR)/move_rotate.c
+PARSER_SRCS = $(PARSER_DIR)/init.c \
+	$(PARSER_DIR)/map_check.c \
+	$(PARSER_DIR)/map_utils.c \
+	$(PARSER_DIR)/texture_check.c
+MINIMAP_SRCS = $(MINIMAP_DIR)/minimap.c \
+	$(MINIMAP_DIR)/minimap_draw.c
+RENDER_SRCS = $(RENDER_DIR)/draw.c \
+	$(RENDER_DIR)/get_color_tex.c \
+	$(RENDER_DIR)/render.c \
+	$(RENDER_DIR)/render_utils.c \
+	$(RENDER_DIR)/init_ray.c \
+	$(RENDER_DIR)/raycast.c \
+	$(RENDER_DIR)/texture_load.c \
+	$(RENDER_DIR)/texture_utils.c
+UTILS_SRCS = $(UTILS_DIR)/clean.c \
+	$(UTILS_DIR)/utils.c
+
+SRCS = $(CUB3D_SRCS) $(PARSER_SRCS) $(MINIMAP_SRCS) \
+	$(RENDER_SRCS) $(UTILS_SRCS)
 
 # object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -64,6 +76,7 @@ $(NAME): $(OBJS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "$(YELLOW)Compiling:$(NC) $<"
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_DIR):

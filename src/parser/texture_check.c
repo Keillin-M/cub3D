@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 19:48:53 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:06:29 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ int	texture_file_check(t_tex *tex)
 	return (0);
 }
 
-int	color_check(char *temp, int *r, int *g, int *b)
+static int	color_check(char *temp, int *r, int *g, int *b)
 {
-	int		val;
 	char	**rgb;
 	char	**rgb_start;
 
@@ -62,7 +61,7 @@ int	color_check(char *temp, int *r, int *g, int *b)
 	return (0);
 }
 
-void	id_check(t_tex *tex, char **temp)
+static void	id_check(t_tex *tex, char **temp)
 {
 	if (ft_strncmp(temp[0], "NO", 2) == 0)
 	{
@@ -87,7 +86,7 @@ void	id_check(t_tex *tex, char **temp)
 	tex->count++;
 }
 
-char	**space_trim(t_map *map)
+static char	**space_trim(t_map *map)
 {
 	char	*trimmed;
 	char	**temp;
@@ -111,22 +110,22 @@ int	texture_check(t_tex *tex, t_map *map)
 	char	**temp;
 
 	temp = space_trim(map);
-	if (ft_strncmp(temp[0], "F", 1) == 0 || ft_strncmp(temp[0], "C", 1) == 0)
+	if (ft_strncmp(temp[0], "F", 1) == 0)
 	{
 		if (color_check(temp[1], &tex->floor_r, &tex->floor_g, &tex->floor_b)
-			== 1 || color_check(temp[1], &tex->ceiling_r, &tex->ceiling_g,
+			== 1)
+			return (1);
+		tex->texture[4] = temp;
+		tex->f++;
+		tex->count++;
+	}
+	else if (ft_strncmp(temp[0], "C", 1) == 0)
+	{
+		if (color_check(temp[1], &tex->ceiling_r, &tex->ceiling_g,
 				&tex->ceiling_b) == 1)
 			return (1);
-		if (ft_strncmp(temp[0], "F", 1) == 0)
-		{
-			tex->texture[4] = temp;
-			tex->f++;
-		}
-		else if (ft_strncmp(temp[0], "C", 1) == 0)
-		{
-			tex->texture[5] = temp;
-			tex->c++;
-		}
+		tex->texture[5] = temp;
+		tex->c++;
 		tex->count++;
 	}
 	else

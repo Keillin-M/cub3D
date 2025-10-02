@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/10/01 20:39:21 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 18:02:32 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_game	t_game;
 # define COLOR_WHITE 0xFFFFFF
 # define COLOR_BLACK 0x000000
 # define COLOR_GRAY 0x808080
+# define COLOR_L_BLUE 0x87CEEB
+# define COLOR_BROWN 0x8B4513
 
 # define PI 3.14159265359
 # define TWO_PI 6.28318530718
@@ -87,14 +89,38 @@ typedef struct s_render
 	int			show_minimap;
 }	t_render;
 
+typedef struct s_wall_data
+{
+	int	tex_num;
+	int	tex_x;
+	int	y;
+}	t_wall_data;
+
 //MLX functions
-int	init_mlx(t_game *game);
-int	create_window(t_game *game);
+int		init_mlx(t_game *game);
+int		create_window(t_game *game);
+
+//Rendering functions
+int		render(t_game *game);
+void	draw_wall_col(t_game *game, t_ray *ray, t_img *img, int x);
+void	put_pixel_to_img(t_img *img, int x, int y, int color);
+int		get_render_step(t_game *game);
+void	update_fps(t_game *game);
 
 //Texture functions
 int		load_texture(t_game *game, t_texture *tex, char *filepath);
 int		init_textures(t_game *game);
 int		get_texture_pixel(t_texture *tex, int x, int y);
+int		get_wall_color(t_game *game, t_ray *ray, t_wall_data *wall_data);
+int		get_wall_texture(t_ray *ray);
 void	set_colors(t_game *game, t_render *render);
+
+//Raycasting functions
+int		init_img_buffer(t_game *game, t_img *img);
+void	init_ray(t_ray *ray, t_game *game, int x);
+void	perform_dda(t_ray *ray, t_game *game);
+void	wall_distance(t_ray *ray, t_game *game);
+void	wall_height(t_ray *ray);
+void	texture_coords(t_ray *ray, t_game *game, int tex_num, int *tex_x);
 
 #endif

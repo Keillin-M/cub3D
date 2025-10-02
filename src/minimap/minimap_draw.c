@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:33:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 21:07:44 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 11:36:11 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	draw_single_tile(t_minimap_data *data, int pixel_x, int pixel_y,
 		while (dx < data->dynamic_scale - 1)
 		{
 			put_pixel_to_buffer(data->img_data, pixel_x + dx, 
-        		pixel_y + dy, color);
+				pixel_y + dy, color);
 			dx++;
 		}
 		dy++;
@@ -94,7 +94,7 @@ void	draw_player_on_minimap(t_game *game, char *img_data, int line_len,
 	player_pos[0] = MINIMAP_X + (int)(game->player.x * dynamic_scale);
 	player_pos[1] = MINIMAP_Y + (int)(game->player.y * dynamic_scale);
 	coords[1] = -1;
-	while (coords[1] <= 1)
+	while (++coords[1] <= 1)
 	{
 		coords[0] = -1;
 		while (coords[0] <= 1)
@@ -103,7 +103,6 @@ void	draw_player_on_minimap(t_game *game, char *img_data, int line_len,
 				player_pos[1] + coords[1], PLAYER_COLOR);
 			coords[0]++;
 		}
-		coords[1]++;
 	}
 	i = 0;
 	while (++i <= 15)

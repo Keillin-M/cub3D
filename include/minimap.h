@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:37:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 20:41:01 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 18:05:59 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@
 
 typedef struct s_minimap_data
 {
-    char	*img_data;
-    int		line_len;
-    int		dynamic_scale;
+	int		line_len;
+	int		dynamic_scale;
+	char	*img_data;
 }	t_minimap_data;
 
-// Minimap helper functions
-void	put_pixel_to_buffer(char *img_data, int x, int y, int color, int line_len);
-void	draw_map_tiles(t_game *game, char *img_data, int line_len, int dynamic_scale);
-void	draw_player_on_minimap(t_game *game, char *img_data, int line_len, int dynamic_scale);
+// Minimap
+void	draw_map_tiles(t_game *game, char *img_data, int line_len, 
+			int dynamic_scale);
+void	draw_player_on_minimap(t_game *game, char *img_data, int line_len, 
+			int dynamic_scale);
+void	draw_minimap_to_buffer(t_game *game, char *img_data, int line_len);
 
 #endif

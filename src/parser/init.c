@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 12:49:50 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 12:54:25 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_init_player2(t_player *player, t_map *map)
 		player->dir_y = 0.0f;
 		player->plane_x = 0.0f;
 		player->plane_y = player->fov;
-		player->rot = 0.0f;       // East = 0 degrees
+		player->rot = 0.0f;
 	}
 	else if (map->dir == 'W')
 	{
@@ -29,7 +29,7 @@ static void	ft_init_player2(t_player *player, t_map *map)
 		player->dir_y = 0.0f;
 		player->plane_x = 0.0f;
 		player->plane_y = -player->fov;
-		player->rot = 3.14159f;   // West = 180 degrees (π)
+		player->rot = 3.14159f;
 	}
 }
 
@@ -37,14 +37,14 @@ void	ft_init_player(t_player *player, t_map *map)
 {
 	player->x = (float)map->x + 0.5f;
 	player->y = (float)map->y + 0.5f;
-	player->fov = 0.66f;  // Initialize default FOV
+	player->fov = 0.66f;
 	if (map->dir == 'N')
 	{
 		player->dir_x = 0.0f;
 		player->dir_y = -1.0f;
 		player->plane_x = player->fov;
 		player->plane_y = 0.0f;
-		player->rot = -1.5708f;   // North = -90 degrees (-π/2)
+		player->rot = -1.5708f;
 	}
 	else if (map->dir == 'S')
 	{
@@ -52,7 +52,7 @@ void	ft_init_player(t_player *player, t_map *map)
 		player->dir_y = 1.0f;
 		player->plane_x = -player->fov;
 		player->plane_y = 0.0f;
-		player->rot = 1.5708f;    // South = 90 degrees (π/2)
+		player->rot = 1.5708f;
 	}
 	else
 		ft_init_player2(player, map);

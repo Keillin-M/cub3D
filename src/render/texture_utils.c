@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:03:29 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 20:21:45 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:04:48 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_texture_pixel(t_texture *tex, int x, int y)
 	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
 		return (0);
 	dst = tex->img.addr + (y * tex->img.line_len 
-		+ x * (tex->img.bpp / 8));
+			+ x * (tex->img.bpp / 8));
 	return (*(unsigned int *)dst);
 }
 

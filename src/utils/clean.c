@@ -24,6 +24,17 @@ void	free_array(char **array)
 	free(array);
 }
 
+static void	ft_destroy_img2(t_game *game)
+{
+	if (game->img->img)
+	{
+		mlx_destroy_image(game->mlx, game->img->img);
+		game->img->img = NULL;
+	}
+	free(game->img);
+	game->img = NULL;
+}
+
 void	ft_destroy_img(t_game *game)
 {
 	int	i;
@@ -39,15 +50,7 @@ void	ft_destroy_img(t_game *game)
 		}
 	}
 	if (game->img)
-	{
-		if (game->img->img)
-		{
-			mlx_destroy_image(game->mlx, game->img->img);
-			game->img->img = NULL;
-		}
-		free(game->img);
-		game->img = NULL;
-	}
+		ft_destroy_img2(game);
 	if (game->render->screen.img)
 	{
 		mlx_destroy_image(game->mlx, game->render->screen.img);

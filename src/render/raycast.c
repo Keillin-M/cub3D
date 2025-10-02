@@ -6,14 +6,14 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:10:35 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 19:28:42 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:20:32 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
 
-static void	texture_coords(t_ray *ray, t_game *game, int tex_num, int *tex_x)
+void	texture_coords(t_ray *ray, t_game *game, int tex_num, int *tex_x)
 {
 	double	wall_x;
 
@@ -94,4 +94,3 @@ void	perform_dda(t_ray *ray, t_game *game)
 			ray->hit = 1;
 	}
 }
-

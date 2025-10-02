@@ -6,12 +6,14 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 19:05:02 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 16:45:33 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 static int	map_ext(char *argv)
 {
@@ -35,7 +37,7 @@ static int	map_ext(char *argv)
 	return (1);
 }
 
-int	ft_open(t_game *game)
+static int	ft_open(t_game *game)
 {
 	game->mlx = mlx_init();
 	if (!game->mlx)
@@ -43,11 +45,7 @@ int	ft_open(t_game *game)
 	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->win)
 		return (1);
-	
-	// Hide mouse cursor and center it for FPS-style control
-	mlx_mouse_hide(game->mlx, game->win);
-	mlx_mouse_move(game->mlx, game->win, WIN_WIDTH/2, WIN_HEIGHT/2);
-	
+	mlx_mouse_move(game->mlx, game->win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	return (0);
 }
 
@@ -82,6 +80,7 @@ static int	setup_game(t_game *game, t_map *map, t_tex *tex, t_player *player)
 	game->map = map;
 	game->tex = tex;
 	game->render = NULL;
+	game->img = NULL;
 	if (ft_open(game))
 		return (1);
 	ft_init_player(player, map);
@@ -113,7 +112,6 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);
-	//mlx_hook(game.win, 6, 1L << 6, ft_mouse_event, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }

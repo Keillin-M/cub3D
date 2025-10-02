@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 12:03:24 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 18:01:35 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <mlx.h>
 # include "parser.h"
 # include "render.h"
-
-typedef struct s_render	t_render;
 
 typedef struct s_player
 {
@@ -41,28 +39,22 @@ typedef struct s_game
 	t_tex		*tex;
 	t_player	player;
 	t_render	*render;
+	t_ray		*ray;
 	t_img		*img;
 }	t_game;
 
-void	ft_init_player(t_player *player, t_map *map);
-int		ft_key_event(int keycode, t_game *game);
-int		ft_mouse_event(int x, int y, t_game *game);
-void	toggle_minimap(t_game *game);
-int		ft_close(t_game *game);
+// Memory Management
+void	free_array(char **array);
+void	ft_clean_map(t_map *map);
+void	ft_clean_tex(t_tex *tex);
 void	ft_destroy_img(t_game *game);
-int		render(t_game *game);
-int		init_game(t_game *game, char **argv);
-void	cleanup_game(t_game *game);
-int		init_textures(t_game *game);
-int		load_texture(t_game *game, t_texture *texture, char *filepath);
-int		get_texture_pixel(t_texture *texture, int x, int y);
-int		rgb_to_color(char *rgb_str);
-void	render_background_optimized(char *img_data, int line_len,
-			int ceiling_color, int floor_color);
-void	draw_minimap(t_game *game);
-void	draw_minimap_to_buffer(t_game *game, char *img_data, int line_len);
-void	draw_minimap_border(t_game *game);
-void	draw_minimap_tile(t_game *game, int x, int y, int color);
-void	draw_minimap_player(t_game *game);
+int		ft_malloc_check(void *ptr);
+int		ft_close(t_game *game);
+
+// Events and Movement
+int		ft_key_event(int keycode, t_game *game);
+void	ft_rotate(t_player *player, char rot);
+int		ft_mouse_event(int x, t_game *game);
+void	ft_move(t_player *player, t_map *map, char mov);
 
 #endif

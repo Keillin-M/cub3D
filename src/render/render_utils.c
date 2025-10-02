@@ -6,12 +6,13 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 10:11:59 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 19:30:09 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 16:45:11 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
+#include <sys/time.h>
 
 static double	get_time(void)
 {
@@ -23,7 +24,6 @@ static double	get_time(void)
 
 void	update_fps(t_game *game)
 {
-	double			delta_time;
 	double			current_time;
 	static int		fps_counter;
 	static double	last_time;
@@ -35,7 +35,6 @@ void	update_fps(t_game *game)
 		last_time = current_time;
 		fps_last_time = current_time;
 	}
-	delta_time = current_time - last_time;
 	last_time = current_time;
 	fps_counter++;
 	if (current_time - fps_last_time >= 1000)

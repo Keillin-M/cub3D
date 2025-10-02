@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 10:43:36 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 13:12:38 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
-int	check(t_map *map, int y, int x)
+static int	check(t_map *map, int y, int x)
 {
 	if (map->map_cpy[y][x] == ' ' || map->map_cpy[y][x] == '\n')
 		return (1);
 	return (0);
 }
 
-int	edge_check(t_map *map)
+static int	edge_check(t_map *map)
 {
 	int	i;
 	int	j;
@@ -45,7 +46,7 @@ int	edge_check(t_map *map)
 	return (0);
 }
 
-int	char_check(t_map *map, int i, int j)
+static int	char_check(t_map *map, int i, int j)
 {
 	if (map->map_cpy[j][i] != '1' && map->map_cpy[j][i] != '0' \
 			&& map->map_cpy[j][i] != 'N' && map->map_cpy[j][i] != 'S' \
@@ -70,7 +71,7 @@ int	char_check(t_map *map, int i, int j)
 	return (0);
 }
 
-int	flood_fill(t_map *map, int y, int x)
+static int	flood_fill(t_map *map, int y, int x)
 {
 	int	len;
 

@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:34:16 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 20:18:03 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:14:27 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	init_textures(t_game *game)
 	load_wall_textures(game, render);
 	set_colors(game, render);
 	render->show_minimap = 1;
+	render->fps = 60;
+	render->frame_count = 0;
 	printf("✅ Enhanced rendering initialized (textures + colors)\n");
 	return (1);
 }
