@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 16:45:33 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:27:32 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	setup_game(t_game *game, t_map *map, t_tex *tex, t_player *player)
 		return (1);
 	ft_init_player(player, map);
 	game->player = *player;
-	if (!init_textures(game))
+	if (init_textures(game))
 	{
 		ft_printf("Error: Failed to initialize textures\n");
 		return (1);
@@ -104,6 +104,7 @@ int	main(int argc, char **argv)
 		return (perror("Wrong number of arguments"), 1);
 	if (map_ext(argv[1]))
 		return (1);
+	print_welcome_banner();
 	ft_init(&map, &tex);
 	if (read_file(&map, &tex, argv))
 		return (ft_clean_map(&map), ft_clean_tex(&tex), 1);
@@ -112,6 +113,7 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0, ft_close, &game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_hook(game.win, 2, 1L << 0, ft_key_event, &game);
+	mlx_hook(game.win, 6, 1L << 6, ft_mouse_event, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }

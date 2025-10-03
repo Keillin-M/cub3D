@@ -3,74 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 10:41:25 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 16:44:47 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:37:55 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
 #include "minimap.h"
-#include <sys/time.h>
-
-int	get_render_step(t_game *game)
-{
-	if (game && game->render && game->render->fps > 30)
-		return (1);
-	else if (game && game->render && game->render->fps > 15)
-		return (2);
-	else
-		return (4);
-}
-
-/*static void	render_ceiling_and_floor(t_img *img, int ceiling_color, 
-			int floor_color)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < img->height / 2)
-	{
-		x = 0;
-		while (x < img->width)
-		{
-			put_pixel_to_img(img, x, y, ceiling_color);
-			x++;
-		}
-		y++;
-	}
-	while (y < img->height)
-	{
-		x = 0;
-		while (x < img->width)
-		{
-			put_pixel_to_img(img, x, y, floor_color);
-			x++;
-		}
-		y++;
-	}
-}
-
-static void	render_background(t_game *game)
-{
-	int	ceiling_color;
-	int	floor_color;
-
-	if (game->render)
-	{
-		ceiling_color = game->render->ceiling_color;
-		floor_color = game->render->floor_color;
-	}
-	else
-	{
-		ceiling_color = 0x87CEEB;
-		floor_color = 0x8B4513;
-	}
-	render_ceiling_and_floor(game->img, ceiling_color, floor_color);
-}*/
 
 static void	render_walls(t_game *game)
 {
@@ -87,6 +29,28 @@ static void	render_walls(t_game *game)
 		draw_wall_col(game, &ray, game->img, x);
 		x += game->img->render_step;
 	}
+}
+
+static int	get_render_step(t_game *game)
+{
+	if (game && game->render && game->render->fps > 30)
+		return (1);
+	else if (game && game->render && game->render->fps > 15)
+		return (2);
+	else
+		return (4);
+}
+
+static int	init_img_buffer(t_game *game, t_img *img)
+{
+	img->img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!img->img)
+		return (1);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, 
+			&img->endian);
+	img->width = WIN_WIDTH;
+	img->height = WIN_HEIGHT;
+	return (0);
 }
 
 int	render(t_game *game)

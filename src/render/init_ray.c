@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:50:20 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/01 15:08:57 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:22:00 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
-
-int	init_img_buffer(t_game *game, t_img *img)
-{
-	img->img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!img->img)
-		return (1);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, 
-			&img->endian);
-	img->width = WIN_WIDTH;
-	img->height = WIN_HEIGHT;
-	return (0);
-}
 
 static void	step_and_side_dist(t_ray *ray, t_game *game)
 {

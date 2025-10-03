@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 12:54:25 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:20:51 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_init_player(t_player *player, t_map *map)
 	else
 		ft_init_player2(player, map);
 	player->speed = 0.1f;
-	player->turn_dir = 0;
+	player->turn_dir = 1;
 }
 
 void	ft_init(t_map *map, t_tex *tex)

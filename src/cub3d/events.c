@@ -14,6 +14,14 @@
 #include <math.h>
 #include <stdlib.h>
 
+static void	toggle_mouse_capture(t_game *game)
+{
+	static int	mouse_captured = 1;
+
+	mouse_captured = !mouse_captured;
+	game->player.turn_dir = mouse_captured;
+}
+
 static void	hide_show_minimap(t_game *game)
 {
 	if (game->render)
@@ -51,35 +59,29 @@ int	ft_key_event(int keycode, t_game *game)
 		rot = 'r';
 	else if (keycode == 'm')
 		hide_show_minimap(game);
+	else if (keycode == 'l')
+		toggle_mouse_capture(game);
 	ft_mov_or_rotate(game, mov, rot);
 	return (0);
 }
 
-int	ft_mouse_event(int x, t_game *game)
+int	ft_mouse_event(int x, int y, t_game *game)
 {
 	static int	initialized = 0;
 	int			center_x;
-	int			center_y;
 	int			delta_x;
 	float		mouse_sensitivity;
 
+	(void)y;
 	mouse_sensitivity = 0.003f;
 	center_x = WIN_WIDTH / 2;
-	center_y = WIN_HEIGHT / 2;
 	if (!initialized)
 	{
 		initialized = 1;
 		return (0);
 	}
 	delta_x = x - center_x;
-	if (abs(delta_x) > 5)
-	{
-		game->player.rot += delta_x * mouse_sensitivity;
-		game->player.dir_x = cos(game->player.rot);
-		game->player.dir_y = sin(game->player.rot);
-		game->player.plane_x = -sin(game->player.rot) * game->player.fov;
-		game->player.plane_y = cos(game->player.rot) * game->player.fov;
-		mlx_mouse_move(game->mlx, game->win, center_x, center_y);
-	}
+	if (abs(delta_x) > 5 && game->player.turn_dir)
+		update_player_rotation(game, delta_x, mouse_sensitivity);
 	return (0);
 }

@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   move_rotate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:18:35 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 17:21:10 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:19:57 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	update_player_rotation(t_game *game, int delta_x, 
+			float mouse_sensitivity)
+{
+	game->player.rot += delta_x * mouse_sensitivity;
+	game->player.dir_x = cos(game->player.rot);
+	game->player.dir_y = sin(game->player.rot);
+	game->player.plane_x = -sin(game->player.rot) * game->player.fov;
+	game->player.plane_y = cos(game->player.rot) * game->player.fov;
+}
 
 static int	is_valid_pos(t_map *map, int map_x, int map_y)
 {

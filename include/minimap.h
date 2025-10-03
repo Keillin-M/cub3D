@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:37:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 18:05:59 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:33:48 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
 # define MINIMAP_SCALE 20
 # define MINIMAP_X 1700
 # define MINIMAP_Y 20
-# define WALL_COLOR 0x404040
-# define FLOOR_COLOR 0xC0C0C0
-# define PLAYER_COLOR 0xFF0000
-# define BORDER_COLOR 0x808080
 
 typedef struct s_minimap_data
 {

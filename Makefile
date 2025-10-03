@@ -32,7 +32,8 @@ UTILS_DIR = $(SRC_DIR)/utils
 # Source files
 CUB3D_SRCS = $(CUB3D_DIR)/cub3d.c \
 	$(CUB3D_DIR)/events.c \
-	$(CUB3D_DIR)/move_rotate.c
+	$(CUB3D_DIR)/move_rotate.c \
+	$(CUB3D_DIR)/welcome_banner.c
 PARSER_SRCS = $(PARSER_DIR)/init.c \
 	$(PARSER_DIR)/map_check.c \
 	$(PARSER_DIR)/map_utils.c \
@@ -40,7 +41,7 @@ PARSER_SRCS = $(PARSER_DIR)/init.c \
 MINIMAP_SRCS = $(MINIMAP_DIR)/minimap.c \
 	$(MINIMAP_DIR)/minimap_draw.c
 RENDER_SRCS = $(RENDER_DIR)/draw.c \
-	$(RENDER_DIR)/get_color_tex.c \
+	$(RENDER_DIR)/draw_utils.c \
 	$(RENDER_DIR)/render.c \
 	$(RENDER_DIR)/render_utils.c \
 	$(RENDER_DIR)/init_ray.c \
@@ -53,7 +54,7 @@ UTILS_SRCS = $(UTILS_DIR)/clean.c \
 SRCS = $(CUB3D_SRCS) $(PARSER_SRCS) $(MINIMAP_SRCS) \
 	$(RENDER_SRCS) $(UTILS_SRCS)
 
-# object files
+# Object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(MLX_LIB) $(LIBFT_LIB) $(OBJ_DIR) $(NAME)

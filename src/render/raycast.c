@@ -3,44 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:10:35 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 14:20:32 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:22:10 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
-
-void	texture_coords(t_ray *ray, t_game *game, int tex_num, int *tex_x)
-{
-	double	wall_x;
-
-	if (ray->side == 0)
-		wall_x = game->player.y + ray->perp_wall_dist * ray->ray_dir_y;
-	else
-		wall_x = game->player.x + ray->perp_wall_dist * ray->ray_dir_x;
-	wall_x -= floor(wall_x);
-	if (wall_x < 0)
-		wall_x = 0;
-	if (wall_x >= 1)
-		wall_x = 0.999;
-	if (game->render && game->render->textures[tex_num].img.img && 
-		game->render->textures[tex_num].width > 0)
-	{
-		*tex_x = (int)(wall_x * (double)game->render->textures[tex_num].width);
-		if ((ray->side == 0 && ray->ray_dir_x > 0) || 
-			(ray->side == 1 && ray->ray_dir_y < 0))
-			*tex_x = game->render->textures[tex_num].width - *tex_x - 1;
-		if (*tex_x < 0)
-			*tex_x = 0;
-		if (*tex_x >= game->render->textures[tex_num].width)
-			*tex_x = game->render->textures[tex_num].width - 1;
-	}
-	else
-		*tex_x = 0;
-}
 
 void	wall_height(t_ray *ray)
 {

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 17:10:36 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 18:00:24 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:21:37 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render.h"
 
-void	put_pixel_to_img(t_img *img, int x, int y, int color)
+static void	put_pixel_to_img(t_img *img, int x, int y, int color)
 {
 	int	pixel_index;
 
@@ -27,7 +27,7 @@ void	put_pixel_to_img(t_img *img, int x, int y, int color)
 	}
 }
 
-static void	draw_ceiling_section(t_img *img, t_game *game, 
+static void	draw_ceiling(t_img *img, t_game *game, 
 			int x_pos, t_ray *ray)
 {
 	int	y;
@@ -40,7 +40,7 @@ static void	draw_ceiling_section(t_img *img, t_game *game,
 	}
 }
 
-static void	draw_wall_section(t_img *img, t_game *game, 
+static void	draw_wall(t_img *img, t_game *game, 
 			int x_pos, t_ray *ray)
 {
 	t_wall_data	wall_data;
@@ -59,7 +59,7 @@ static void	draw_wall_section(t_img *img, t_game *game,
 	}
 }
 
-static void	draw_floor_section(t_img *img, t_game *game, 
+static void	draw_floor(t_img *img, t_game *game, 
 			int x_pos, t_ray *ray)
 {
 	int	y;
@@ -79,9 +79,9 @@ void	draw_wall_col(t_game *game, t_ray *ray, t_img *img, int x)
 	i = 0;
 	while (i < img->render_step && (x + i) < WIN_WIDTH)
 	{
-		draw_ceiling_section(img, game, x + i, ray);
-		draw_wall_section(img, game, x + i, ray);
-		draw_floor_section(img, game, x + i, ray);
+		draw_ceiling(img, game, x + i, ray);
+		draw_wall(img, game, x + i, ray);
+		draw_floor(img, game, x + i, ray);
 		i++;
 	}
 }
