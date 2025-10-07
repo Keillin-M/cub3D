@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 11:37:28 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 17:45:24 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,49 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+static int	is_empty_line(char *line)
+{
+	int	i;
+
+	if (!line)
+		return (1);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_disconnected_map(t_map *map)
+{
+	int	y;
+	int	map_ended;
+	int	found;
+
+	y = 0;
+	map_ended = 0;
+	found = 0;
+	while (y < map->height)
+	{
+		if (is_empty_line(map->map_cpy[y]))
+		{
+			if (found)
+				map_ended = 1;
+		}
+		else
+		{
+			found = 1;
+			if (map_ended)
+				return (ft_putstr_fd("Error\nDisconnected map section", 2), 1);
+		}
+		y++;
+	}
+	return (0);
+}
 
 static int	skip_to_map(t_map *map)
 {
@@ -33,7 +76,7 @@ static int	skip_to_map(t_map *map)
 		free(line);
 		line = get_next_line(map->fd);
 		if (!line)
-			return (perror("Error\nNot enough texture identifiers"), 1);
+			return (ft_putstr_fd("Error\nNot enough texture identifiers", 2), 1);
 	}
 	while (line && ft_strncmp(line, "\n", 1) == 0)
 	{
@@ -65,7 +108,7 @@ static int	map_size(t_map *map)
 	return (0);
 }
 
-static int	copy_map(t_map *map)
+int	copy_map(t_map *map)
 {
 	int	row;
 	int	len;
@@ -91,44 +134,4 @@ static int	copy_map(t_map *map)
 	}
 	map->height = row;
 	return (close(map->fd), 0);
-}
-
-int	read_line(t_map *map, t_tex *tex)
-{
-	map->width = 0;
-	while (tex->count < 6)
-	{
-		if (ft_strncmp(map->line, "\n", 1) == 0)
-		{
-			free(map->line);
-			map->line = get_next_line(map->fd);
-		}
-		if (texture_check(tex, map))
-		{
-			close(map->fd);
-			free(map->line);
-			return (perror("Error\ninvalid type identifier"), 1);
-		}
-		free(map->line);
-		map->line = get_next_line(map->fd);
-	}
-	if (copy_map(map))
-		return (1);
-	return (0);
-}
-
-int	read_file(t_map *map, t_tex *tex, char **argv)
-{
-	map->fd_name = argv[1];
-	map->fd = open(map->fd_name, O_RDONLY);
-	if (map->fd < 0)
-		return (perror("Error opening file"), 1);
-	map->line = get_next_line(map->fd);
-	if (read_line(map, tex))
-		return (1);
-	if (texture_file_check(tex) || tex->c != 1 || tex->f != 1)
-		return (ft_clean_map(map), ft_clean_tex(tex), 1);
-	if (map_check(map))
-		return (ft_clean_map(map), ft_clean_tex(tex), 1);
-	return (0);
 }

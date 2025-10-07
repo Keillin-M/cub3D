@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 12:15:30 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 15:54:51 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ int	texture_check(t_tex *tex, t_map *map)
 	if (!temp)
 		return (1);
 	if (ft_strncmp(temp[0], "F", 1) == 0)
-		return (handle_floor_color(tex, temp));
+	{
+		if (handle_floor_color(tex, temp))
+			return (1);
+	}
 	else if (ft_strncmp(temp[0], "C", 1) == 0)
 		return (handle_ceiling_color(tex, temp));
 	else

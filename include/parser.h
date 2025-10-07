@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:30:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 11:58:53 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 17:55:01 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ void	ft_init_player(t_player *player, t_map *map);
 
 // File Reading and Parsing
 int		read_file(t_map *map, t_tex *tex, char **argv);
-int		read_line(t_map *map, t_tex *tex);
 
 // Map Validation
 int		map_check(t_map *map);
+int		copy_map(t_map *map);
+int		check_disconnected_map(t_map *map);
 int		texture_check(t_tex *tex, t_map *map);
 int		texture_file_check(t_tex *tex);
 int		handle_floor_color(t_tex *tex, char **temp);

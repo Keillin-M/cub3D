@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_rotate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:18:35 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:19:57 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 14:46:35 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 void	update_player_rotation(t_game *game, int delta_x, 
 			float mouse_sensitivity)
 {
+	int	center_x;
+	int	center_y;
+
+	center_x = WIN_WIDTH / 2;
+	center_y = WIN_HEIGHT / 2;
 	game->player.rot += delta_x * mouse_sensitivity;
 	game->player.dir_x = cos(game->player.rot);
 	game->player.dir_y = sin(game->player.rot);
 	game->player.plane_x = -sin(game->player.rot) * game->player.fov;
 	game->player.plane_y = cos(game->player.rot) * game->player.fov;
+	mlx_mouse_move(game->mlx, game->win, center_x, center_y);
 }
 
 static int	is_valid_pos(t_map *map, int map_x, int map_y)

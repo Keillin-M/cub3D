@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 14:35:23 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 17:52:08 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	edge_check(t_map *map)
 		len = ft_strlen(map->map_cpy[j]);
 		while (i < len && map->map_cpy[j][i] != '\n')
 		{
-			if (map->map_cpy[j][i] == 'X' || map->map_cpy[j][i] == 'N' 
+			if (map->map_cpy[j][i] == 'X' || map->map_cpy[j][i] == 'N'
 				|| map->map_cpy[j][i] == 'S' || map->map_cpy[j][i] == 'W' 
 				|| map->map_cpy[j][i] == 'E' || map->map_cpy[j][i] == '0')
 			{
@@ -56,7 +56,7 @@ static int	char_check(t_map *map, int i, int j)
 			&& map->map_cpy[j][i] != 'N' && map->map_cpy[j][i] != 'S' \
 				&& map->map_cpy[j][i] != 'W' && map->map_cpy[j][i] != 'E' \
 					&& map->map_cpy[j][i] != ' ')
-		return (perror("Invalid char in map"), 1);
+		return (ft_putstr_fd("Invalid char in map", 2), 1);
 	if (map->map_cpy[j][i] == 'N' || map->map_cpy[j][i] == 'S' \
 			|| map->map_cpy[j][i] == 'W' || map->map_cpy[j][i] == 'E')
 	{
@@ -116,9 +116,11 @@ int	map_check(t_map *map)
 		}
 		j++;
 	}
+	if (check_disconnected_map(map))
+		return (1);
 	if (map->player != 1)
-		return (perror("Must be one player"), 1);
+		return (ft_putstr_fd("Must be one player", 2), 1);
 	if (flood_fill(map, map->y, map->x) || edge_check(map))
-		return (perror("Error\nMap must be surrounded by walls"), 1);
+		return (ft_putstr_fd("Error\nMap must be surrounded by walls", 2), 1);
 	return (0);
 }

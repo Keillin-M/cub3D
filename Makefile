@@ -38,6 +38,7 @@ PARSER_SRCS = $(PARSER_DIR)/init.c \
 	$(PARSER_DIR)/color_check.c \
 	$(PARSER_DIR)/map_check.c \
 	$(PARSER_DIR)/map_utils.c \
+	$(PARSER_DIR)/read.c \
 	$(PARSER_DIR)/texture_check.c
 MINIMAP_SRCS = $(MINIMAP_DIR)/minimap.c \
 	$(MINIMAP_DIR)/minimap_draw.c

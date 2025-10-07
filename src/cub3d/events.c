@@ -73,7 +73,7 @@ int	ft_mouse_event(int x, int y, t_game *game)
 	float		mouse_sensitivity;
 
 	(void)y;
-	mouse_sensitivity = 0.00003f;
+	mouse_sensitivity = 0.001f;
 	center_x = WIN_WIDTH / 2;
 	if (!initialized)
 	{

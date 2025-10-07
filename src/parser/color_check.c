@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 11:55:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 12:11:42 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 16:00:16 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@ static int	color_check(char *temp, int *r, int *g, int *b)
 
 int	handle_floor_color(t_tex *tex, char **temp)
 {
-	if (color_check(temp[1], &tex->ceiling_r, &tex->ceiling_g, 
-			&tex->ceiling_b) == 1)
-		return (free_array(temp), 1);
+	if (color_check(temp[1], &tex->floor_r, &tex->floor_g, 
+			&tex->floor_b) == 1)
+	{
+		free_array(temp);
+		return (1);
+	}
 	tex->texture[4] = temp;
 	tex->f++;
 	tex->count++;
@@ -43,7 +46,10 @@ int	handle_ceiling_color(t_tex *tex, char **temp)
 {
 	if (color_check(temp[1], &tex->ceiling_r, &tex->ceiling_g,
 			&tex->ceiling_b) == 1)
-		return (free_array(temp), 1);
+	{
+		free_array(temp);
+		return (1);
+	}
 	tex->texture[5] = temp;
 	tex->c++;
 	tex->count++;
