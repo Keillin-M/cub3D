@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:30:00 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/02 18:01:55 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:58:53 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ int		read_line(t_map *map, t_tex *tex);
 int		map_check(t_map *map);
 int		texture_check(t_tex *tex, t_map *map);
 int		texture_file_check(t_tex *tex);
+int		handle_floor_color(t_tex *tex, char **temp);
+int		handle_ceiling_color(t_tex *tex, char **temp);
 
 #endif

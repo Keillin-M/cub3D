@@ -35,6 +35,7 @@ CUB3D_SRCS = $(CUB3D_DIR)/cub3d.c \
 	$(CUB3D_DIR)/move_rotate.c \
 	$(CUB3D_DIR)/welcome_banner.c
 PARSER_SRCS = $(PARSER_DIR)/init.c \
+	$(PARSER_DIR)/color_check.c \
 	$(PARSER_DIR)/map_check.c \
 	$(PARSER_DIR)/map_utils.c \
 	$(PARSER_DIR)/texture_check.c
