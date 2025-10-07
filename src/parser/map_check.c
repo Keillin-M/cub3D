@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:21:02 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 14:35:23 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static int	check(t_map *map, int y, int x)
 {
+	if (x < 0 || y < 0 || y >= map->height || x >= map->width)
+		return (1);
 	if (map->map_cpy[y][x] == ' ' || map->map_cpy[y][x] == '\n')
 		return (1);
 	return (0);
@@ -33,7 +35,9 @@ static int	edge_check(t_map *map)
 		len = ft_strlen(map->map_cpy[j]);
 		while (i < len && map->map_cpy[j][i] != '\n')
 		{
-			if (map->map_cpy[j][i] == 'X' || map->map_cpy[j][i] == 'N')
+			if (map->map_cpy[j][i] == 'X' || map->map_cpy[j][i] == 'N' 
+				|| map->map_cpy[j][i] == 'S' || map->map_cpy[j][i] == 'W' 
+				|| map->map_cpy[j][i] == 'E' || map->map_cpy[j][i] == '0')
 			{
 				if (check(map, j + 1, i + 1) || check(map, j + 1, i - 1) \
 					|| check(map, j - 1, i + 1) || check(map, j - 1, i - 1))
@@ -83,7 +87,7 @@ static int	flood_fill(t_map *map, int y, int x)
 	if (map->map_cpy[y][x] == '1' || map->map_cpy[y][x] == 'X')
 		return (0);
 	if (map->map_cpy[y][x] == ' ')
-		map->map_cpy[y][x] = '1';
+		return (1);
 	map->map_cpy[y][x] = 'X';
 	flood_fill(map, y - 1, x);
 	flood_fill(map, y + 1, x);
