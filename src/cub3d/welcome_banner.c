@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_banner.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:18:35 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:19:00 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:20:51 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
 void	print_welcome_banner(void)
 {

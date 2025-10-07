@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:37:19 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:23:06 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:28:32 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_malloc_check(void *ptr)
 {
 	if (!ptr)
 	{
-		perror("Malloc failed");
+		ft_putstr_fd("Malloc failed", 2);
 		return (1);
 	}
 	return (0);

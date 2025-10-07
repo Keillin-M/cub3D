@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   texture_load.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:34:16 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:22:44 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:28:08 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
 int	load_texture(t_game *game, t_texture *tex, char *filepath)
 {

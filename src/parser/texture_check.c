@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:21:25 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:30:45 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	texture_file_check(t_tex *tex)
 			tex->texture[i][1] = trimmed;
 			fd = open(tex->texture[i][1], O_RDONLY);
 			if (fd < 0)
-				return (perror("Error\nCannot open texture file"), 1);
+				return (ft_putstr_fd("Error\nCannot open texture file", 2), 1);
 			close(fd);
 			i++;
 		}
 	}
 	else
-		return (perror("Error\nInvalid number of texture identifiers"), 1);
+		return (ft_putstr_fd("Error\nInvalid texture identifiers", 2), 1);
 	return (0);
 }
 
