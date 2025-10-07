@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 11:54:13 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/07 12:15:30 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	texture_file_check(t_tex *tex)
 		return (ft_putstr_fd("Error\nInvalid texture identifiers", 2), 1);
 	return (0);
 }
-
 
 static void	id_check(t_tex *tex, char **temp)
 {
