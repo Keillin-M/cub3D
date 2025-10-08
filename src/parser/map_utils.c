@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:45:02 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 17:45:24 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:12:40 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_disconnected_map(t_map *map)
 		{
 			found = 1;
 			if (map_ended)
-				return (ft_putstr_fd("Error\nDisconnected map section", 2), 1);
+				return (ft_putstr_fd("Error\nDisconnected map section\n", 2), 1);
 		}
 		y++;
 	}
@@ -66,7 +66,7 @@ static int	skip_to_map(t_map *map)
 
 	map->fd = open(map->fd_name, O_RDONLY);
 	if (map->fd < 0)
-		return (perror("Error opening file"), 1);
+		return (perror("Error\nOpening file failed\n"), 1);
 	line = get_next_line(map->fd);
 	texture_count = 0;
 	while (texture_count < 6)

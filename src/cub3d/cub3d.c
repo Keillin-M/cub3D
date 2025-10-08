@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 15:40:43 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:10:57 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ static int	map_ext(char *argv)
 	len = ft_strlen(argv);
 	if (len < 9)
 	{
-		ft_printf("File extension invalid\n");
+		ft_putstr_fd("Error\nFile extension invalid\n", 2);
 		return (1);
 	}
 	if (!ft_isalnum(argv[len - 5]) && argv[len - 5] != '-'
 		&& argv[len - 5] != '_')
 	{
-		ft_printf("File extension invalid\n");
+		ft_putstr_fd("Error\nFile extension invalid\n", 2);
 		return (1);
 	}
 	if (ft_strncmp(argv + len - 4, ".cub", 4) == 0)
 		return (0);
-	ft_printf("File extension invalid\n");
+	ft_putstr_fd("Error\nFile extension invalid\n", 2);
 	return (1);
 }
 
@@ -87,7 +87,7 @@ static int	setup_game(t_game *game, t_map *map, t_tex *tex, t_player *player)
 	game->player = *player;
 	if (init_textures(game))
 	{
-		ft_printf("Error: Failed to initialize textures\n");
+		ft_putstr_fd("Error\nFailed to initialize textures\n", 2);
 		return (1);
 	}
 	return (0);
@@ -101,7 +101,7 @@ int	main(int argc, char **argv)
 	t_player	player;
 
 	if (argc != 2)
-		return (perror("Wrong number of arguments"), 1);
+		return (ft_putstr_fd("Error\nWrong number of arguments\n", 2), 1);
 	if (map_ext(argv[1]))
 		return (1);
 	ft_init(&map, &tex);

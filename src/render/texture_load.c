@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:34:16 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 11:28:08 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:14:12 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	load_texture(t_game *game, t_texture *tex, char *filepath)
 			&tex->width, &tex->height);
 	if (!tex->img.img)
 	{
-		printf("Error: Failed to load texture: %s\n", filepath);
+		printf("Error\nFailed to load texture: %s\n", filepath);
 		return (1);
 	}
 	tex->img.addr = mlx_get_data_addr(tex->img.img,
@@ -42,7 +42,7 @@ static int	load_wall_textures(t_game *game, t_render *render)
 		|| !game->tex->texture[2] || !game->tex->texture[2][1] 
 		|| !game->tex->texture[3] || !game->tex->texture[3][1])
 	{
-		printf("Error: One or more wall texture paths are missing\n");
+		printf("Error\nOne or more wall texture paths are missing\n");
 		return (1);
 	}
 	if (load_texture(game, &render->textures[0], game->tex->texture[0][1])
@@ -53,7 +53,7 @@ static int	load_wall_textures(t_game *game, t_render *render)
 		|| load_texture(game, &render->textures[3], 
 			game->tex->texture[3][1]))
 	{
-		printf("Error: One or more wall textures failed to load\n");
+		printf("Error\nOne or more wall textures failed to load\n");
 		return (1);
 	}
 	return (0);
@@ -82,7 +82,7 @@ static int	alloc_render_struct(t_game *game)
 		game->render = malloc(sizeof(t_render));
 		if (!game->render)
 		{
-			printf("Error: Failed to allocate render structure\n");
+			printf("Error\nFailed to allocate render structure\n");
 			return (1);
 		}
 	}
@@ -95,7 +95,7 @@ int	init_textures(t_game *game)
 
 	if (!game || !game->tex)
 	{
-		printf("Error: Invalid game or tex structure\n");
+		printf("Error\nInvalid game or tex structure\n");
 		return (1);
 	}
 	if (alloc_render_struct(game))

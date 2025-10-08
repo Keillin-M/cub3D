@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:18:35 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 14:46:35 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:22:44 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,15 @@ void	ft_move(t_player *player, t_map *map, char mov)
 
 void	ft_rotate(t_player *player, char rot)
 {
+	int	rot_dir;
+
 	if (rot == 'l')
-		player->turn_dir = -1;
+		rot_dir = -1;
 	else if (rot == 'r')
-		player->turn_dir = 1;
+		rot_dir = 1;
 	else
 		return ;
-	player->rot += player->turn_dir * 0.05f;
+	player->rot += rot_dir * 0.05f;
 	player->dir_x = cos(player->rot);
 	player->dir_y = sin(player->rot);
 	player->plane_x = -sin(player->rot) * player->fov;

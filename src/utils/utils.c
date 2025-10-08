@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:37:19 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 11:28:32 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:14:43 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_malloc_check(void *ptr)
 {
 	if (!ptr)
 	{
-		ft_putstr_fd("Malloc failed", 2);
+		ft_putstr_fd("Error\nMalloc failed\n", 2);
 		return (1);
 	}
 	return (0);

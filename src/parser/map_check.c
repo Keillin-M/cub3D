@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:00:38 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 17:52:08 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:11:42 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	char_check(t_map *map, int i, int j)
 			&& map->map_cpy[j][i] != 'N' && map->map_cpy[j][i] != 'S' \
 				&& map->map_cpy[j][i] != 'W' && map->map_cpy[j][i] != 'E' \
 					&& map->map_cpy[j][i] != ' ')
-		return (ft_putstr_fd("Invalid char in map", 2), 1);
+		return (ft_putstr_fd("Error\nInvalid char in map", 2), 1);
 	if (map->map_cpy[j][i] == 'N' || map->map_cpy[j][i] == 'S' \
 			|| map->map_cpy[j][i] == 'W' || map->map_cpy[j][i] == 'E')
 	{
@@ -119,7 +119,7 @@ int	map_check(t_map *map)
 	if (check_disconnected_map(map))
 		return (1);
 	if (map->player != 1)
-		return (ft_putstr_fd("Must be one player", 2), 1);
+		return (ft_putstr_fd("Error\nMust be one player", 2), 1);
 	if (flood_fill(map, map->y, map->x) || edge_check(map))
 		return (ft_putstr_fd("Error\nMap must be surrounded by walls", 2), 1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:16:26 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/07 16:23:08 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/08 19:13:06 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	read_line(t_map *map, t_tex *tex)
 		{
 			close(map->fd);
 			free(map->line);
-			ft_putstr_fd("Error\nInvalid texture identifiers", 2);
+			ft_putstr_fd("Error\nInvalid texture identifiers\n", 2);
 			return (1);
 		}
 		free(map->line);
@@ -45,10 +45,10 @@ int	read_file(t_map *map, t_tex *tex, char **argv)
 	map->fd_name = argv[1];
 	map->fd = open(map->fd_name, O_RDONLY);
 	if (map->fd < 0)
-		return (perror("Error opening file"), 1);
+		return (perror("Error\nOpening file failed\n"), 1);
 	map->line = get_next_line(map->fd);
 	if (!map->line)
-		return (close(map->fd), ft_putstr_fd("Error\nEmpty file", 2), 1);
+		return (close(map->fd), ft_putstr_fd("Error\nEmpty file\n", 2), 1);
 	if (read_line(map, tex))
 		return (1);
 	if (texture_file_check(tex) || tex->c != 1 || tex->f != 1)
