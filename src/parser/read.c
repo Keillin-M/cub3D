@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:16:26 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/08 19:13:06 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:54:06 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	read_file(t_map *map, t_tex *tex, char **argv)
 	if (read_line(map, tex))
 		return (1);
 	if (texture_file_check(tex) || tex->c != 1 || tex->f != 1)
-		return (ft_clean_map(map), ft_clean_tex(tex), 1);
+		return (ft_clean_map(map), ft_clean_tex(tex), gnl_cleanup(), 1);
 	if (map_check(map))
-		return (ft_clean_map(map), ft_clean_tex(tex), 1);
+		return (ft_clean_map(map), ft_clean_tex(tex), gnl_cleanup(), 1);
 	return (0);
 }

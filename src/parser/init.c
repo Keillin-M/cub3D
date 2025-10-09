@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:37:55 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/09 11:53:36 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:43:09 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ void	ft_init_player(t_player *player, t_map *map)
 	player->turn_dir = 0;
 }
 
+static void	ft_init_tex(t_tex *tex)
+{
+	int	i;
+
+	tex->texture = malloc(sizeof(char **) * 6);
+	ft_malloc_check(tex->texture);
+	i = 0;
+	while (i < 6)
+	{
+		tex->texture[i] = NULL;
+		i++;
+	}
+}
+
 void	ft_init(t_map *map, t_tex *tex)
 {
 	map->x = 0;
@@ -81,6 +95,5 @@ void	ft_init(t_map *map, t_tex *tex)
 	tex->c = 0;
 	tex->f = 0;
 	tex->count = 0;
-	tex->texture = malloc(sizeof(char **) * 6);
-	ft_malloc_check(tex->texture);
+	ft_init_tex(tex);
 }

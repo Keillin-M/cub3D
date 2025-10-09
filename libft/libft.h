@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:19:24 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/05/19 18:09:19 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:54:08 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_printf(const char *format, ...);
 char	*get_next_line(int fd);
+void	gnl_cleanup(void);
 
 typedef struct s_list
 {

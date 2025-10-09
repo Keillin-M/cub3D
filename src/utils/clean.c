@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:16:37 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:23:18 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:24:16 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	free_array(char **array)
-{
-	int	i;
-
-	if (!array)
-		return ;
-	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-}
 
 static void	ft_destroy_img2(t_game *game)
 {
@@ -87,15 +75,16 @@ void	ft_clean_map(t_map *map)
 	if (!map)
 		return ;
 	i = 0;
-	if (map->height <= 0)
-		return ;
-	while (i < map->height)
+	if (map->height > 0)
 	{
-		if (map->map && map->map[i])
-			free(map->map[i]);
-		if (map->map_cpy && map->map_cpy[i])
-			free(map->map_cpy[i]);
-		i++;
+		while (i < map->height)
+		{
+			if (map->map && map->map[i])
+				free(map->map[i]);
+			if (map->map_cpy && map->map_cpy[i])
+				free(map->map_cpy[i]);
+			i++;
+		}
 	}
 	if (map->map)
 		free(map->map);
@@ -103,5 +92,18 @@ void	ft_clean_map(t_map *map)
 		free(map->map_cpy);
 	map->map_cpy = NULL;
 	map->map = NULL;
-	return ;
+}
+
+int	ft_clean_on_error(t_game game, t_map map, t_tex tex)
+{
+	if (game.render)
+		ft_destroy_img(&game);
+	if (game.win)
+		mlx_destroy_window(game.mlx, game.win);
+	if (game.mlx)
+	{
+		mlx_destroy_display(game.mlx);
+		free(game.mlx);
+	}
+	return (ft_clean_map(&map), ft_clean_tex(&tex), gnl_cleanup(), 1);
 }

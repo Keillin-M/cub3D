@@ -16,7 +16,7 @@
 
 static void	toggle_mouse_capture(t_game *game)
 {
-	static int	mouse_captured = 1;
+	static int	mouse_captured = 0;
 
 	mouse_captured = !mouse_captured;
 	game->player.turn_dir = mouse_captured;

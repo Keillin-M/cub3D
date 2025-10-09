@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:24:04 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/06/05 15:32:35 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:00:59 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,35 @@ static char	*ft_read_fd(int fd, char *stash, int *bytes_read)
 	return (temp);
 }
 
+void	gnl_cleanup(void)
+{
+	get_next_line(-2);
+}
+
+static void	gnl_free(char **stash)
+{
+	int	i;
+
+	i = 0;
+	while (i < 1024)
+	{
+		if (stash[i])
+		{
+			free(stash[i]);
+			stash[i] = NULL;
+		}
+		i++;
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	int			bytes_read;
 	static char	*stash[1024];
 	char		*line;
 
+	if (fd == -2)
+		return (gnl_free(stash), NULL);
 	bytes_read = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);

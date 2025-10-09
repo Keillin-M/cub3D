@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:23:45 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:37:34 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:23:43 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_clean_tex(t_tex *tex);
 void	ft_destroy_img(t_game *game);
 int		ft_malloc_check(void *ptr);
 int		ft_close(t_game *game);
+int		ft_clean_on_error(t_game game, t_map map, t_tex tex);
 
 // Events and Movement
 int		ft_key_event(int keycode, t_game *game);
