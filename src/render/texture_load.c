@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:34:16 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/08 19:14:12 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:04:42 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,11 @@ int	init_textures(t_game *game)
 	init_texture_arrays(render);
 	if (load_wall_textures(game, render))
 		return (1);
-	set_colors(game, render);
+	if (!set_colors(game, render))
+	{
+		ft_close(game);
+		return (1);
+	}
 	render->show_minimap = 1;
 	render->fps = 60;
 	render->frame_count = 0;

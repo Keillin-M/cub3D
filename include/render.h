@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:00:00 by pangjii           #+#    #+#             */
-/*   Updated: 2025/10/03 15:38:26 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:02:45 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int		get_wall_texture(t_ray *ray);
 //Texture functions
 int		load_texture(t_game *game, t_texture *tex, char *filepath);
 int		init_textures(t_game *game);
-void	set_colors(t_game *game, t_render *render);
+int		set_colors(t_game *game, t_render *render);
 int		get_texture_pixel(t_texture *tex, int x, int y);
 
 //Raycasting functions

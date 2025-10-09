@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmaeda <kmaeda@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:03:29 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/03 15:22:54 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:07:12 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,21 @@ int	get_texture_pixel(t_texture *tex, int x, int y)
 	return (*(unsigned int *)dst);
 }
 
-void	set_colors(t_game *game, t_render *render)
+int	set_colors(t_game *game, t_render *render)
 {
-	if (game->tex->texture[4] && game->tex->texture[4][1])
-		render->floor_color = (game->tex->floor_r << 16) 
-			| (game->tex->floor_g << 8) | game->tex->floor_b;
-	else
-		render->floor_color = 0x8B4513;
-	if (game->tex->texture[5] && game->tex->texture[5][1])
-		render->ceiling_color = (game->tex->ceiling_r << 16) 
-			| (game->tex->ceiling_g << 8) | game->tex->ceiling_b;
-	else
-		render->ceiling_color = 0x87CEEB;
+	if (!game->tex->texture[4] || !game->tex->texture[4][1])
+	{
+		ft_putstr_fd("Error\nFloor color not found\n", 2);
+		return (0);
+	}
+	if (!game->tex->texture[5] || !game->tex->texture[5][1])
+	{
+		ft_putstr_fd("Error\nCeiling color not found\n", 2);
+		return (0);
+	}
+	render->floor_color = (game->tex->floor_r << 16) 
+		| (game->tex->floor_g << 8) | game->tex->floor_b;
+	render->ceiling_color = (game->tex->ceiling_r << 16) 
+		| (game->tex->ceiling_g << 8) | game->tex->ceiling_b;
+	return (1);
 }
