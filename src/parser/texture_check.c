@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:41:34 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/09 13:41:50 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 14:00:23 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	texture_file_check(t_tex *tex)
 			tex->texture[i][1] = trimmed;
 			fd = open(tex->texture[i][1], O_RDONLY);
 			if (fd < 0)
-				return (ft_putstr_fd("Error\nCannot open texture file", 2), 1);
+				return (ft_putstr_fd("Error\nCannot open texture file\n", 2), 1);
 			close(fd);
 			i++;
 		}
 	}
 	else
-		return (ft_putstr_fd("Error\nInvalid texture identifiers", 2), 1);
+		return (ft_putstr_fd("Error\nInvalid texture identifiers\n", 2), 1);
 	return (0);
 }
 
