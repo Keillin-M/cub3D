@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:34:16 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/09 12:04:42 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:54:22 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static int	load_wall_textures(t_game *game, t_render *render)
 		|| load_texture(game, &render->textures[3], 
 			game->tex->texture[3][1]))
 	{
-		printf("Error\nOne or more wall textures failed to load\n");
 		return (1);
 	}
 	return (0);

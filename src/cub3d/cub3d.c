@@ -6,7 +6,7 @@
 /*   By: kmaeda <kmaeda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:26:43 by kmaeda            #+#    #+#             */
-/*   Updated: 2025/10/09 13:23:01 by kmaeda           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:54:26 by kmaeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ static int	setup_game(t_game *game, t_map *map, t_tex *tex, t_player *player)
 	ft_init_player(player, map);
 	game->player = *player;
 	if (init_textures(game))
-	{
-		ft_putstr_fd("Error\nFailed to initialize textures\n", 2);
 		return (1);
-	}
 	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->win)
 		return (1);
